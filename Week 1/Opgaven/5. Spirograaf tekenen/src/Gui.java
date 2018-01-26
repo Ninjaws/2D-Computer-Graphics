@@ -3,10 +3,10 @@ import java.awt.*;
 
 /**
  * @author Ian Vink
- * @date 26-01-2018
  * @version 1.0
- *
+ * <p>
  * The GUI that support the drawing of the spirograph
+ * @date 26-01-2018
  */
 
 
@@ -32,7 +32,7 @@ public class Gui {
 
         JPanel armLengthPanel = new JPanel(new FlowLayout());
         JPanel anglePanel = new JPanel(new FlowLayout());
-        JPanel gridPanel = new JPanel(new GridLayout(2,0));
+        JPanel gridPanel = new JPanel(new GridLayout(2, 0));
 
         spiroGraph = new SpiroGraph();
 
@@ -60,13 +60,17 @@ public class Gui {
         JButton drawButton = new JButton("Draw");
         drawButton.addActionListener(e ->
         {
-            spiroGraph.setArmLength(Double.parseDouble(arm1LengthField.getText()),
-                    Double.parseDouble(arm2LengthField.getText()),
-                    Double.parseDouble(arm3LengthField.getText()));
-            spiroGraph.setArmDeltaAngle(Double.parseDouble(angle1Field.getText()),
-                    Double.parseDouble(angle2Field.getText()),
-                    Double.parseDouble(angle3Field.getText()));
-            spiroGraph.repaint();
+            try {
+                spiroGraph.setArmLength(Double.parseDouble(arm1LengthField.getText()),
+                        Double.parseDouble(arm2LengthField.getText()),
+                        Double.parseDouble(arm3LengthField.getText()));
+                spiroGraph.setArmDeltaAngle(Double.parseDouble(angle1Field.getText()),
+                        Double.parseDouble(angle2Field.getText()),
+                        Double.parseDouble(angle3Field.getText()));
+                spiroGraph.repaint();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Only enter numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
         JButton arm1Button = new JButton("Set arm 1 (in)visible");
         arm1Button.addActionListener(e ->
