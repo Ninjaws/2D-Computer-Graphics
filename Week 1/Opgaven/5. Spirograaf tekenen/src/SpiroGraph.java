@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 /**
  * @author Ian Vink
- * @version 1.1
- * @date 26-01-2018
+ * @version 1.2
+ * @date 27-01-2018
  */
 
 public class SpiroGraph extends JPanel {

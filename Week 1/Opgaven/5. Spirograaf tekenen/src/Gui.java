@@ -3,9 +3,8 @@ import java.awt.*;
 
 /**
  * @author Ian Vink
- * @version 1.0
- * <p>
- * The GUI that support the drawing of the spirograph
+ * @version 1.1
+ * The GUI that supports the drawing of the spirograph
  * @date 26-01-2018
  */
 

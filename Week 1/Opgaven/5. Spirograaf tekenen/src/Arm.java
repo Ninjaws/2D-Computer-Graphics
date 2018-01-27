@@ -1,7 +1,7 @@
 /**
  * @author Ian Vink
- * @version 1.0
- * @date 26-01-2018
+ * @version 1.1
+ * @date 27-01-2018
  * <p>
  * The arm of the spirograph, which is connected to another arm to draw shapes
  * The first arm is connected to the origin, with the second one being connected to it, etc
