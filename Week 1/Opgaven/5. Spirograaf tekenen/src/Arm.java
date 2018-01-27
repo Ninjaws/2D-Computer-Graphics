@@ -33,8 +33,7 @@ public class Arm {
         this.parentArm = null;
 
         calculatePosition(0);
-        startX = x;
-        startY = y;
+        setStartPosition();
     }
 
     public Arm(double length, double deltaAngle, boolean visible, Arm parentArm) {
@@ -44,6 +43,11 @@ public class Arm {
         this.parentArm = parentArm;
 
         calculatePosition(0);
+        setStartPosition();
+    }
+
+    public void setStartPosition()
+    {
         startX = x;
         startY = y;
     }
@@ -52,6 +56,7 @@ public class Arm {
         oldX = x;
         oldY = y;
     }
+
 
 
     public void calculatePosition(int currentIteration) {
@@ -108,7 +113,7 @@ public class Arm {
 
     public boolean hasCompletedShape()
     {
-        double margin = 0.001;
+        double margin = 0.000000001;
         return (startX >= x - margin && startX <= x + margin
              && startY >= y - margin && startY <= y + margin);
     }

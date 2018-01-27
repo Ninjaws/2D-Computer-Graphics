@@ -82,9 +82,12 @@ public class SpiroGraph extends JPanel {
 
         for (Arm arm : arms) {
             arm.calculatePosition(0);
+            arm.setStartPosition();
         }
 
-        for (int i = 1; i < 100000; i++) {
+        // In the unlikely event that the break below doesn't trigger (the shape isn't completed),
+        // there is a maximum amount of iterations to prevent it from getting stuck in an infinite loop
+        for (int i = 1; i < 5000000; i++) {
 
             int counter = 0;
             for (Arm arm : arms) {
@@ -105,7 +108,10 @@ public class SpiroGraph extends JPanel {
                 }
 
                 counter++;
+
             }
+            if (arm3.hasCompletedShape())
+                break;
 
         }
 
