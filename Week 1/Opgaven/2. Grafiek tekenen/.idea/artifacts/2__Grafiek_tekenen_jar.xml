@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="2. Grafiek tekenen:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/2__Grafiek_tekenen_jar</output-path>
+    <root id="archive" name="2. Grafiek tekenen.jar">
+      <element id="module-output" name="2. Grafiek tekenen" />
+    </root>
+  </artifact>
+</component>

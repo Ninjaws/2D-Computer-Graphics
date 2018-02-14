@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="5. Spirograaf tekenen:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/5__Spirograaf_tekenen_jar</output-path>
+    <root id="archive" name="5. Spirograaf tekenen.jar">
+      <element id="module-output" name="5. Spirograaf tekenen" />
+    </root>
+  </artifact>
+</component>
