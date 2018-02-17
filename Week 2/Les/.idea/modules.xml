@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CSG/CSG.iml" filepath="$PROJECT_DIR$/CSG/CSG.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Camera/Camera.iml" filepath="$PROJECT_DIR$/Camera/Camera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Les.iml" filepath="$PROJECT_DIR$/Les.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MouseInteraction/MouseInteraction.iml" filepath="$PROJECT_DIR$/MouseInteraction/MouseInteraction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Paths/Paths.iml" filepath="$PROJECT_DIR$/Paths/Paths.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Strokes/Strokes.iml" filepath="$PROJECT_DIR$/Strokes/Strokes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TexturePaint/TexturePaint.iml" filepath="$PROJECT_DIR$/TexturePaint/TexturePaint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Transform/Transform.iml" filepath="$PROJECT_DIR$/Transform/Transform.iml" />
+    </modules>
+  </component>
+</project>

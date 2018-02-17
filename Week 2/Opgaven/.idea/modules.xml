@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/1. Moon/1. Moon.iml" filepath="$PROJECT_DIR$/1. Moon/1. Moon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/2. Ying-yang/2. Ying-yang.iml" filepath="$PROJECT_DIR$/2. Ying-yang/2. Ying-yang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/3. 13 Squares/3. 13 Squares.iml" filepath="$PROJECT_DIR$/3. 13 Squares/3. 13 Squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/4. Radial Square/4. Radial Square.iml" filepath="$PROJECT_DIR$/4. Radial Square/4. Radial Square.iml" />
+      <module fileurl="file://$PROJECT_DIR$/5. Mirror/5. Mirror.iml" filepath="$PROJECT_DIR$/5. Mirror/5. Mirror.iml" />
+      <module fileurl="file://$PROJECT_DIR$/6. Dragging Squares/6. Dragging Squares.iml" filepath="$PROJECT_DIR$/6. Dragging Squares/6. Dragging Squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Opgaven.iml" filepath="$PROJECT_DIR$/Opgaven.iml" />
+    </modules>
+  </component>
+</project>
