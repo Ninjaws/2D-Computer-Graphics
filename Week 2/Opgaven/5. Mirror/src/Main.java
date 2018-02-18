@@ -34,7 +34,7 @@ public class Main extends JPanel {
             x = i;
             y = 2.5 * x;
             path.lineTo((int) x, (int) y);
-            System.out.println(x + ", " + y);
+        //    System.out.println(x + ", " + y);
         }
         path.closePath();
         g2d.draw(path);
