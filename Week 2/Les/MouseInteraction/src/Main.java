@@ -29,26 +29,10 @@ public class Main extends JPanel implements MouseListener, MouseMotionListener {
     {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
+        g2d.setStroke(new BasicStroke(20));
+        g2d.draw(new Rectangle2D.Double(position.getX()-50, position.getY()-50, 100, 100));
 
-        float[] fractions = new float[3];
-        fractions[0] = 0.1f;
-        fractions[1] = 0.5f;
-        fractions[2] = 0.8f;
-        Color[] colours = new Color[3];
-        colours[0] = new Color(255, 0, 0);
-        colours[1] = new Color(0, 255, 0);
-        colours[2] = new Color(0, 0, 255);
-
-
-        LinearGradientPaint lgd = new LinearGradientPaint((int)position.getX(), (int)position.getY(),
-                getWidth()/2, getHeight()/2, fractions, colours);
-
-
-        Rectangle2D rect = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
-
-        g2d.setPaint(lgd);
-        g2d.fill(rect);
-       }
+    }
 
     public void mouseClicked(MouseEvent e) {}
     public void mousePressed(MouseEvent e) {}

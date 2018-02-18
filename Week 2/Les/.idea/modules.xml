@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CSG/CSG.iml" filepath="$PROJECT_DIR$/CSG/CSG.iml" />
       <module fileurl="file://$PROJECT_DIR$/Camera/Camera.iml" filepath="$PROJECT_DIR$/Camera/Camera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DraggingDaan/DraggingDaan.iml" filepath="$PROJECT_DIR$/DraggingDaan/DraggingDaan.iml" />
       <module fileurl="file://$PROJECT_DIR$/Les.iml" filepath="$PROJECT_DIR$/Les.iml" />
       <module fileurl="file://$PROJECT_DIR$/MouseInteraction/MouseInteraction.iml" filepath="$PROJECT_DIR$/MouseInteraction/MouseInteraction.iml" />
       <module fileurl="file://$PROJECT_DIR$/Paths/Paths.iml" filepath="$PROJECT_DIR$/Paths/Paths.iml" />
