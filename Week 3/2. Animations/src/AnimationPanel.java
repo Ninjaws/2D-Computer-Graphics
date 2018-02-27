@@ -19,6 +19,15 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     boolean keyPressed = false;
     int pressedKey = -1;
 
+    boolean isJumping = false;
+
+
+    float jumpForce = 20;
+    float currentForce = 0;
+    float gravityForce = 5.0f;
+
+    float moveSpeed = 5f;
+
     public enum Actions {STANDING, RUNNING, JUMPING}
 
     ;
@@ -42,7 +51,7 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
         List<BufferedImage> tiles = new ArrayList<>(Arrays.asList(characterSheet.getTiles()));
         standingAnimation = new ArrayList<>(tiles.subList(0, 4));
         runningAnimation = new ArrayList<>(tiles.subList(4, 12));
-        jumpingAnimation = new ArrayList<>(tiles.subList(38,50));
+        jumpingAnimation = new ArrayList<>(tiles.subList(40, 49));
         currentAnimation = new ArrayList<>();
         currentAnimation = standingAnimation;
         currentAction = Actions.STANDING.ordinal();
@@ -77,7 +86,6 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     public void keyPressed(KeyEvent e) {
         keyPressed = true;
         pressedKey = e.getKeyCode();
-        System.out.println(pressedKey);
     }
 
     @Override
@@ -93,19 +101,42 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (keyPressed) {
-            if (pressedKey == KeyEvent.VK_D)
-                setAnimation(Actions.RUNNING.ordinal());
-            else if (pressedKey == KeyEvent.VK_SPACE)
-                setAnimation(Actions.JUMPING.ordinal());
 
+        if (isJumping) {
             nextTile();
+            currentForce -= gravityForce;
+            characterShape.setRect(characterShape.getX(), characterShape.getY() - currentForce, characterShape.getWidth(), characterShape.getHeight());
+
+            if (characterShape.getY() >= 0.0f) {
+                characterShape.setRect(characterShape.getX(), 0, characterShape.getWidth(), characterShape.getHeight());
+                currentForce = 0f;
+                isJumping = false;
+            }
             repaint();
         } else {
-            setAnimation(Actions.STANDING.ordinal());
+            if (keyPressed) {
+                if (pressedKey == KeyEvent.VK_D) {
+                    setAnimation(Actions.RUNNING.ordinal());
+                    characterShape.setRect(characterShape.getX() + moveSpeed, characterShape.getY(), characterShape.getWidth(), characterShape.getHeight());
+                    if (characterShape.getX() >= getWidth()/2) {
+                        characterShape.setRect(-getWidth()/2, characterShape.getY(), characterShape.getWidth(), characterShape.getHeight());
+                    }
+
+                } else if (pressedKey == KeyEvent.VK_SPACE && !isJumping) {
+                    setAnimation(Actions.JUMPING.ordinal());
+                    isJumping = true;
+                    currentForce += jumpForce;
+                }
+
+
+            } else {
+
+                setAnimation(Actions.STANDING.ordinal());
+            }
             nextTile();
             repaint();
         }
+
     }
 
     public void nextTile() {
@@ -117,7 +148,7 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     public void setAnimation(int newAction) {
         if (newAction != currentAction) {
             currentAction = newAction;
-            System.out.println("Change");
+        //    System.out.println("Change");
             if (newAction == Actions.STANDING.ordinal())
                 currentAnimation = standingAnimation;
             else if (newAction == Actions.RUNNING.ordinal())
