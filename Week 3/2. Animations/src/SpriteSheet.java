@@ -14,7 +14,7 @@ public class SpriteSheet {
             tiles = new BufferedImage[horSprites * verSprites];
 
             for (int i = 0; i < tiles.length; i++)
-                tiles[i] = image.getSubimage(width * (i % horSprites), width * (i / verSprites), width, height);
+                tiles[i] = image.getSubimage(width * (i % horSprites), height * (i / horSprites), width, height);
 
         } catch (Exception e) {
             System.out.println(imageLocation);

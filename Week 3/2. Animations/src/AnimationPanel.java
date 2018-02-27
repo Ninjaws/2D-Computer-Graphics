@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,13 +17,17 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     Rectangle2D characterShape;
     int currentTile = 0;
     boolean keyPressed = false;
+    int pressedKey = -1;
 
-    public enum Actions {STANDING, RUNNING, JUMPING};
+    public enum Actions {STANDING, RUNNING, JUMPING}
+
+    ;
     int currentAction;
 
     List<BufferedImage> currentAnimation;
     List<BufferedImage> standingAnimation;
     List<BufferedImage> runningAnimation;
+    List<BufferedImage> jumpingAnimation;
 
 
     public AnimationPanel() {
@@ -36,9 +41,10 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
 
         List<BufferedImage> tiles = new ArrayList<>(Arrays.asList(characterSheet.getTiles()));
         standingAnimation = new ArrayList<>(tiles.subList(0, 4));
-        runningAnimation = new ArrayList<>(tiles.subList(5, 12));
+        runningAnimation = new ArrayList<>(tiles.subList(4, 12));
+        jumpingAnimation = new ArrayList<>(tiles.subList(38,50));
         currentAnimation = new ArrayList<>();
-        currentAnimation.addAll(standingAnimation);
+        currentAnimation = standingAnimation;
         currentAction = Actions.STANDING.ordinal();
 
         int fps = 10;
@@ -70,6 +76,8 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     @Override
     public void keyPressed(KeyEvent e) {
         keyPressed = true;
+        pressedKey = e.getKeyCode();
+        System.out.println(pressedKey);
     }
 
     @Override
@@ -86,13 +94,16 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     @Override
     public void actionPerformed(ActionEvent e) {
         if (keyPressed) {
-        //    setAnimation(Actions.RUNNING.ordinal());
-      //      nextTile();
+            if (pressedKey == KeyEvent.VK_D)
+                setAnimation(Actions.RUNNING.ordinal());
+            else if (pressedKey == KeyEvent.VK_SPACE)
+                setAnimation(Actions.JUMPING.ordinal());
+
+            nextTile();
             repaint();
         } else {
-              setAnimation(Actions.STANDING.ordinal());
-            System.out.println(currentAnimation.size());
-               nextTile();
+            setAnimation(Actions.STANDING.ordinal());
+            nextTile();
             repaint();
         }
     }
@@ -106,12 +117,13 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     public void setAnimation(int newAction) {
         if (newAction != currentAction) {
             currentAction = newAction;
-            currentAnimation.clear();
-            System.out.println("Not same");
+            System.out.println("Change");
             if (newAction == Actions.STANDING.ordinal())
-                currentAnimation.addAll(standingAnimation);
+                currentAnimation = standingAnimation;
             else if (newAction == Actions.RUNNING.ordinal())
-                currentAnimation.addAll(runningAnimation);
+                currentAnimation = runningAnimation;
+            else if (newAction == Actions.JUMPING.ordinal())
+                currentAnimation = jumpingAnimation;
 
             currentTile = -1;
         }
