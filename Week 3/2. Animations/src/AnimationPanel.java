@@ -68,11 +68,8 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.translate(getWidth() / 2, getHeight() / 2);
-        //      g2d.scale(1,-1);
-
 
         g2d.setPaint(new TexturePaint(currentAnimation.get(currentTile), characterShape));
-
 
         g2d.fill(characterShape);
     }
@@ -148,7 +145,6 @@ public class AnimationPanel extends JPanel implements KeyListener, ActionListene
     public void setAnimation(int newAction) {
         if (newAction != currentAction) {
             currentAction = newAction;
-        //    System.out.println("Change");
             if (newAction == Actions.STANDING.ordinal())
                 currentAnimation = standingAnimation;
             else if (newAction == Actions.RUNNING.ordinal())

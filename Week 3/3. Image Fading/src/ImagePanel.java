@@ -19,7 +19,7 @@ public class ImagePanel extends JPanel implements ActionListener {
     public ImagePanel(int fps) {
 
         this.FPS = fps;
-        fadeTime = 5.0f; //Time in seconds to complete fade into next image
+        fadeTime = 15.0f; //Time in seconds to complete fade into next image
         deltaOpacity = 1 / (fps * fadeTime); // How much the opacity needs to change every frame
 
 
@@ -36,8 +36,7 @@ public class ImagePanel extends JPanel implements ActionListener {
         opacity -= deltaOpacity;
 
         if (opacity <= 0) {
-            imageIndex += 1;
-            imageIndex = imageIndex % images.size();
+            imageIndex = (imageIndex + 1) % images.size();
 
             opacity = 1;
         }
