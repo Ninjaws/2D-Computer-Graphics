@@ -69,5 +69,11 @@ public class DistanceConstraint extends Constraint {
 
     }
 
+    public Particle getA() {
+        return a;
+    }
 
+    public Particle getB() {
+        return b;
+    }
 }

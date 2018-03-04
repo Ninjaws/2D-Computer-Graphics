@@ -107,6 +107,11 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
                 }
             }
         }
+        //Middle mouse button
+        else if (e.getButton() == MouseEvent.BUTTON2) {
+            if (particles.size() >= 2)
+                cutRope(e.getPoint());
+        }
 
     }
 
@@ -123,13 +128,10 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
         for (int i = 0; i < columns; i++) {
             Particle p = new Particle(new Point2D.Double(100 + (i % columns) * (POINT_SIZE * 1.5), 100 + (i / columns) * (POINT_SIZE * 1.5)), POINT_SIZE);
 
-
             if (i != 0) {
                 constraints.add(new RopeConstraint(p, getNearest(p.getPosition())));
             }
-
-            addParticle(p, new PositionConstraint(p));//RopeConstraint(p,getNearest(p.getPosition())));
-
+            addParticle(p, new PositionConstraint(p));
 
         }
 
@@ -178,6 +180,41 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
         return sorted;
     }
 
+
+    public void cutRope(Point2D mousePosition) {
+
+        ArrayList<Particle> nearestParticles = getNearestPoints(mousePosition);
+        for (Constraint c : constraints) {
+            if (c instanceof RopeConstraint) {
+                if (nearestParticles.get(0).equals(((RopeConstraint) c).getA())) {
+                    if (nearestParticles.get(1).equals(((RopeConstraint) c).getB())) {
+                        constraints.remove(c);
+                        break;
+                    }
+                } else if (nearestParticles.get(0).equals(((RopeConstraint) c).getB())) {
+                    if (nearestParticles.get(1).equals(((RopeConstraint) c).getA())) {
+                        constraints.remove(c);
+                        break;
+                    }
+                }
+            } else if (c instanceof DistanceConstraint) {
+                if (nearestParticles.get(0).equals(((DistanceConstraint) c).getA())) {
+                    if (nearestParticles.get(1).equals(((DistanceConstraint) c).getB())) {
+                        constraints.remove(c);
+                        break;
+                    }
+                } else if (nearestParticles.get(0).equals(((DistanceConstraint) c).getB())) {
+                    if (nearestParticles.get(1).equals(((DistanceConstraint) c).getA())) {
+                        constraints.remove(c);
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (particles.size() >= 1) {
@@ -222,16 +259,10 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
 
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
 
-            //  ArrayList<Particle> p = particles;
-            //  ArrayList<Constraint> c = constraints;
-
             oos.writeObject(particles);
             oos.writeObject(constraints);
             oos.close();
-
         }
-
-
     }
 
     public void loadState() throws Exception {
@@ -242,19 +273,6 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
             file = chooser.getSelectedFile();
 
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-/*
-            ArrayList<Object> generic = new ArrayList<>();
-            generic.addAll((Collection<?>) ois.readObject());
-            particles.clear();
-            particles.addAll(generic);
-
-            generic.clear();
-            generic.addAll((ArrayList<Constraint>) ois.readObject());
-            constraints.clear();
-            constraints.addAll((ArrayList<Constraint>) generic);
-            */
-            //    ArrayList<Particle> p = (ArrayList<Particle>) ois.readObject();
-
 
             particles.clear();
             particles.addAll((ArrayList<Particle>) ois.readObject());
@@ -262,7 +280,6 @@ public class VerletPanel extends JPanel implements ActionListener, MouseListener
             constraints.addAll((ArrayList<Constraint>) ois.readObject());
 
             ois.close();
-
         }
     }
 }
