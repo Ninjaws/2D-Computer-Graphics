@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="3. Image Fading:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/3__Image_Fading_jar</output-path>
+    <root id="archive" name="3. Image Fading.jar">
+      <element id="module-output" name="3. Image Fading" />
+    </root>
+  </artifact>
+</component>
