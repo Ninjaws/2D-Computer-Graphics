@@ -71,7 +71,7 @@ public class Main extends JPanel implements ActionListener, MouseListener, KeyLi
         //Background
         BufferedImage backgroundImage = null;
         try {
-            backgroundImage = ImageIO.read(getClass().getResource("images/background.jpg"));
+            backgroundImage = ImageIO.read(getClass().getResource("/images/background.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,17 +79,17 @@ public class Main extends JPanel implements ActionListener, MouseListener, KeyLi
         TexturePaint backgroundPaint = new TexturePaint(backgroundImage, backgroundRect);
         backgroundPaints.add(backgroundPaint);
         backgroundObjects.add(backgroundRect);
-//---
+        //---
 
 
         //Slingshot
-
+        //---
 
         //Objects
 
         BufferedImage tileset = null;
         try {
-            tileset = ImageIO.read(getClass().getResource("\\images\\spritesheet.png"));
+            tileset = ImageIO.read(getClass().getResource("/images/spritesheet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -186,13 +186,13 @@ public class Main extends JPanel implements ActionListener, MouseListener, KeyLi
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        if(backgroundPaints.size() == backgroundObjects.size())
-            for (int i = 0; i < backgroundPaints.size();i++) {
+        if (backgroundPaints.size() == backgroundObjects.size())
+            for (int i = 0; i < backgroundPaints.size(); i++) {
                 g2d.setPaint(backgroundPaints.get(i));
                 g2d.fill(backgroundObjects.get(i));
             }
 
-        AffineTransform tranform = g2d.getTransform();
+        AffineTransform transform = g2d.getTransform();
         g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
         g2d.scale(1, -1);
 
@@ -204,7 +204,7 @@ public class Main extends JPanel implements ActionListener, MouseListener, KeyLi
         if (showDebug.isSelected())
             DebugDraw.draw(g2d, world, worldScale);
 
-        g2d.setTransform(tranform);
+        g2d.setTransform(transform);
     }
 
     @Override
