@@ -33,9 +33,9 @@ public class Main extends JPanel implements MouseListener, MouseMotionListener {
         fractions[1] = 0.5f;
         fractions[2] = 0.8f;
         Color[] colours = new Color[3];
-        colours[0] = new Color(255, 0, 0);
-        colours[1] = new Color(0, 255, 0);
-        colours[2] = new Color(255, 255, 255);
+        colours[0] = Color.getHSBColor(0.1f,1,1);//new Color(255, 0, 0);
+        colours[1] = Color.getHSBColor(0.5f,1,1);//new Color(0, 255, 0);
+        colours[2] = Color.getHSBColor(0.9f,1,1);//new Color(255, 255, 255);
         float radius = 100;
 
 
