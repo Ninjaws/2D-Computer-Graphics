@@ -1,37 +1,104 @@
 package objects;
 
+import data.Simulator;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class Particle {
 
     private double radius;
     private Point2D position;
 
-private Point2D vector;
-    private double velocity = 2;
+    private Point2D vector;
+    private double velocity = 0.1;
     private Color color;
+    private double angle;
 
 
-    public Particle(double radius, Point2D position, Color color){
+    public Particle(double radius, Point2D position, Color color) {
         this.radius = radius;
         this.position = position;
         this.color = color;
+        this.angle = 0;
     }
 
-    public void move(){
+    public void move(long deltaTime) {
 
-        System.out.println(vector);
-        Point2D deltaPosition = new Point2D.Double(vector.getX()*velocity,vector.getY()*velocity);
+        Point2D lastPos = new Point2D.Double(position.getX(), position.getY());
 
-        position.setLocation(new Point2D.Double(position.getX()+deltaPosition.getX(),position.getY()+deltaPosition.getY()));
+        // System.out.println(vector);
+        //   Point2D deltaPosition = new Point2D.Double(vector.getX() * velocity, vector.getY() * velocity);
+
+        //   position.setLocation(new Point2D.Double(position.getX() + deltaPosition.getX(), position.getY() + deltaPosition.getY()));
+
+
+        //    int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
+        //   int y = (int) position.getY() / Simulator.getInstance().getTileMap().getTileSize();
+
+        double targetAngle = Math.atan2(vector.getY(), vector.getX());
+
+
+        double angleDiff = angle - targetAngle;
+
+        while (angleDiff < -Math.PI)
+            angleDiff += 2 * Math.PI;
+        while (angleDiff > Math.PI)
+            angleDiff -= 2 * Math.PI;
+
+
+        if (angleDiff < 0)
+            angle += 0.0002 * deltaTime; //0.002
+        else if (angleDiff > 0)
+            angle -= 0.0002 * deltaTime;
+
+
+        position = new Point2D.Double(
+                position.getX() + (velocity * deltaTime) * Math.cos(angle), position.getY() + (velocity * deltaTime) * Math.sin(angle));
+
+
+/*
+
+        boolean collision = false;
+        for (Particle p : Simulator.getInstance().getParticles()) {
+            if (p.equals(this))
+                continue;
+
+            if (p.getPosition().distance(position) < p.getRadius() / 2 + radius / 2) {
+                collision = true;
+                break;
+            }
+
+        }
+
+        if (collision)
+            position = lastPos;
+*/
+        if (isCollidingWithWall()) {
+            position = lastPos;
+            angle *= -1;
+        }
 
     }
 
-    public void draw(Graphics2D g2d){
+    public void collision() {
+        //Simulator.getInstance().getParticles()
+
+    }
+
+    private boolean isCollidingWithWall() {
+        int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
+        int y = (int) position.getY() / Simulator.getInstance().getTileMap().getTileSize();
+
+        //1 is a wall
+        return Simulator.getInstance().getTileMap().getTiles()[y][x] == 1;
+    }
+
+    public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.fill(new Ellipse2D.Double(position.getX(),position.getY(),radius,radius));
+        g2d.fill(new Ellipse2D.Double(position.getX() - radius / 2, position.getY() - radius / 2, radius, radius));
     }
 
     public Point2D getPosition() {
@@ -48,5 +115,22 @@ private Point2D vector;
 
     public void setVector(Point2D vector) {
         this.vector = vector;
+        //  setAngle(Math.atan2(this.vector.getY(),this.vector.getX()));
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    private void setAngle(double angle) {
+        this.angle = angle;
     }
 }

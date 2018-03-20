@@ -63,22 +63,14 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
             int x = (int) p.getPosition().getX() / simulator.getTileMap().getTileSize();
             int y = (int) p.getPosition().getY() / simulator.getTileMap().getTileSize();
 
+            if (simulator.getDestination().getDistanceMap().getTiles()[y][x].getDistance() == -1 && simulator.getTileMap().getTiles()[y][x] != 1)
+                continue;
 
-            System.out.println("X: "+ x + " , Y: " + y);
-
-            //System.out.println(simulator.getDestination().getDistanceMap().getTiles()[y][x]);
-            System.out.println(simulator.getDestination().getDistanceMap().getTiles()[y][x].getDistance());
-            /*
-            System.out.println(simulator.getDestination().getDistanceMap().getTiles()[y][x].getVector().getX());
 
             Point2D vector = simulator.getDestination().getDistanceMap().getTiles()[y][x].getVector();
-            System.out.println(vector);
             p.setVector(vector);
+            p.move(deltaTime);
 
-
-            p.move();
-            //p.setPosition(new Point2D.Double());
-*/
         }
 
 

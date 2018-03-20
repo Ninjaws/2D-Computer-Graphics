@@ -6,7 +6,7 @@ import presentation.frames.SimulatorFrame;
 public class Main {
     public static void main(String[] args) {
 
-        Simulator.getInstance().setTileMap(new TileMap(20, 40, 32));
+        Simulator.getInstance().setTileMap(new TileMap(40, 80, 16));
         Simulator.getInstance().setDestination(new Destination());
         Simulator.getInstance().addParticles();
 
