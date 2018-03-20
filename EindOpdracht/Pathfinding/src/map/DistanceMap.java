@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class DistanceMap {
 
@@ -64,15 +65,15 @@ public class DistanceMap {
         tiles[y][x].setDistance(0);
 
         //TODO: 4 centerpoints (Prevent there not being a superior path) -> Make correct
-
+/*
         Point secondpointX = new Point(x + 1, y);
         if (!isTileAvailable(secondpointX))
             secondpointX = new Point(x - 1, y);
 
 
-        Point firstpointY = new Point(x,y+1);
-       if(!isTileAvailable(firstpointY))
-            firstpointY = new Point(x, y-1);
+        Point firstpointY = new Point(x, y + 1);
+        if (!isTileAvailable(firstpointY))
+            firstpointY = new Point(x, y - 1);
 
         Point secondpointY = new Point(secondpointX.x, firstpointY.y);
 
@@ -84,7 +85,7 @@ public class DistanceMap {
         tiles[secondpointX.y][secondpointX.x].setDistance(0);
         tiles[firstpointY.y][firstpointY.x].setDistance(0);
         tiles[secondpointY.y][secondpointY.x].setDistance(0);
-
+*/
 
         while (!unvisited.isEmpty()) {
             Point p = unvisited.poll();
@@ -166,6 +167,20 @@ public class DistanceMap {
                 Point2D vector = new Point2D.Double(tiles[left.y][left.x].getDistance() - tiles[right.y][right.x].getDistance(),
                         tiles[up.y][up.x].getDistance() - tiles[down.y][down.x].getDistance());
 
+                //Local Optima problem
+                if (vector.getX() == 0 && vector.getY() == 0) {
+                    int value = (int) Math.round(Math.random()) * 2 - 1;
+
+                    // Walls on both horizontal sides
+                    if (tiles[left.y][left.x].getDistance() == tiles[y][x].getDistance() && tiles[right.y][right.x].getDistance() == tiles[y][x].getDistance()) {
+
+                        vector = new Point2D.Double(0, value);
+                    } else {
+
+                        vector = new Point2D.Double(value, 0);
+                    }
+                }
+
                 double magnitude = Math.sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
 
 
@@ -229,7 +244,6 @@ public class DistanceMap {
     }
 
 
-
     /**
      * Checks if the tile is inside the map and not a wall
      *
@@ -252,4 +266,8 @@ public class DistanceMap {
         return tiles[p.y][p.x].getDistance() == -1;
     }
 
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
 }
