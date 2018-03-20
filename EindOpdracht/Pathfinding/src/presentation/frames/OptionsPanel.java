@@ -3,13 +3,13 @@ package presentation.frames;
 import javax.swing.*;
 import java.awt.*;
 
-public class InterfacePanel extends JPanel {
+public class OptionsPanel extends JPanel {
 
     private JCheckBox showHeatMap;
     private JCheckBox showDistanceMap;
     private JCheckBox showVectorField;
 
-    public InterfacePanel(){
+    public OptionsPanel(){
 
         JPanel gridPanel = new JPanel(new GridLayout(3,1));
 

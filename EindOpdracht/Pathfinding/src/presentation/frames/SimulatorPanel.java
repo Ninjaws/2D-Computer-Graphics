@@ -1,8 +1,6 @@
 package presentation.frames;
 
-import data.Destination;
 import data.Simulator;
-import map.TileMap;
 import presentation.components.DebugDraw;
 
 import javax.swing.*;
@@ -19,17 +17,17 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
     private long endTime;
 
     Simulator simulator;
-    InterfacePanel interfacePanel;
+    OptionsPanel optionsPanel;
 
 
-    public SimulatorPanel(int width, int height, InterfacePanel interfacePanel) {
+    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel) {
 
         startTime = 0;
         endTime = 0;
         deltaTime = 0;
 
         simulator = Simulator.getInstance();
-        this.interfacePanel = interfacePanel;
+        this.optionsPanel = optionsPanel;
 
         addMouseListener(this);
         new Timer(1000 / 60, this).start();
@@ -42,7 +40,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         simulator.getTileMap().drawMap(g2d);
 
-        DebugDraw.getInstance().draw(g2d,interfacePanel.showHeatMap(),interfacePanel.showDistanceMap(),interfacePanel.showVectorField());
+        DebugDraw.getInstance().draw(g2d, optionsPanel.showHeatMap(), optionsPanel.showDistanceMap(), optionsPanel.showVectorField());
 
     }
 

@@ -27,10 +27,10 @@ public class SimulatorFrame extends JFrame {
     public void buildPanel(int width, int height) {
         JPanel content = new JPanel(new BorderLayout());
 
-        InterfacePanel interfacePanel = new InterfacePanel();
+        OptionsPanel optionsPanel = new OptionsPanel();
 
-        content.add(interfacePanel, BorderLayout.WEST);
-        content.add(new SimulatorPanel(width, height, interfacePanel), BorderLayout.CENTER);
+        content.add(optionsPanel, BorderLayout.WEST);
+        content.add(new SimulatorPanel(width, height, optionsPanel), BorderLayout.CENTER);
         content.add(new StatisticsPanel(),BorderLayout.NORTH);
 
         super.setContentPane(content);
