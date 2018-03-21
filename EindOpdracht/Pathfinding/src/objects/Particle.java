@@ -76,10 +76,13 @@ public class Particle {
         if (collision)
             position = lastPos;
 */
+
+        System.out.println(angle);
         if (isCollidingWithWall()) {
             position = lastPos;
             angle *= -1;
         }
+        System.out.println(angle);
 
     }
 
