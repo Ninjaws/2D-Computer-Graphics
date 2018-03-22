@@ -50,7 +50,7 @@ public class Particle {
         double targetAngle = Math.atan2(targetVector.getY(), targetVector.getX());
 
 
-        Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
+       // Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
 
         double angleDiff = angle - targetAngle;
 /*
