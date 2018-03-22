@@ -44,9 +44,9 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         DebugDraw.getInstance().draw(g2d, optionsPanel.showHeatMap(), optionsPanel.showDistanceMap(), optionsPanel.showVectorField());
 
-        for (Particle p : simulator.getParticles()) {
+        for (Particle p : simulator.getParticles())
             p.draw(g2d);
-        }
+
 
     }
 
@@ -58,20 +58,8 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         deltaTime = endTime - startTime;
         startTime = System.currentTimeMillis();
 
-        for (Particle p : simulator.getParticles()) {
-
-            int x = (int) p.getPosition().getX() / simulator.getTileMap().getTileSize();
-            int y = (int) p.getPosition().getY() / simulator.getTileMap().getTileSize();
-
-            if (simulator.getDestination().getDistanceMap().getTiles()[y][x].getDistance() == -1 && simulator.getTileMap().getTiles()[y][x] != 1)
-                continue;
-
-
-            Point2D vector = simulator.getDestination().getDistanceMap().getTiles()[y][x].getVector();
-            p.setVector(vector);
+        for (Particle p : simulator.getParticles())
             p.move(deltaTime);
-
-        }
 
 
         repaint();

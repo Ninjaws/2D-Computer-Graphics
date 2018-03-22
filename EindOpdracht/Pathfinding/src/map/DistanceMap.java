@@ -251,18 +251,16 @@ public class DistanceMap {
      * @return Whether the tile is walkable and not outside the map
      */
     private boolean isTileAvailable(Point p) {
-        return (isInsideMap(p) && isNotAWall(p));
+        return (isInsideMap(p) && !Simulator.getInstance().getTileMap().isAWall(p));
     }
 
     private boolean isInsideMap(Point p) {
         return !(p.x < 0 || p.x >= tiles[0].length || p.y < 0 || p.y >= tiles.length);
     }
 
-    private boolean isNotAWall(Point p) {
-        return Simulator.getInstance().getTileMap().getTiles()[p.y][p.x] == 0;
-    }
 
-    private boolean isNotInitialized(Point p) {
+
+    public boolean isNotInitialized(Point p) {
         return tiles[p.y][p.x].getDistance() == -1;
     }
 

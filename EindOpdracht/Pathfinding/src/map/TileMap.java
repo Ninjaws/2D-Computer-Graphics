@@ -1,5 +1,7 @@
 package map;
 
+import data.Simulator;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -83,5 +85,9 @@ public class TileMap {
 
     public void setTileSize(int tileSize) {
         this.tileSize = tileSize;
+    }
+
+    public boolean isAWall(Point p) {
+        return tiles[p.y][p.x] == 1;
     }
 }

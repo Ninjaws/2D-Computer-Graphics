@@ -13,7 +13,7 @@ public class Simulator {
     private TileMap tileMap;
     private Destination destination;
     private ArrayList<Particle> particles = new ArrayList<>();
-    private int amountOfParticles =20;
+    private int amountOfParticles =1;
 
     private Simulator() {
     }
