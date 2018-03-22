@@ -10,7 +10,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class DistanceMap {
 
@@ -64,28 +63,6 @@ public class DistanceMap {
         unvisited.offer(new Point(x, y));
         tiles[y][x].setDistance(0);
 
-        //TODO: 4 centerpoints (Prevent there not being a superior path) -> Make correct
-/*
-        Point secondpointX = new Point(x + 1, y);
-        if (!isTileAvailable(secondpointX))
-            secondpointX = new Point(x - 1, y);
-
-
-        Point firstpointY = new Point(x, y + 1);
-        if (!isTileAvailable(firstpointY))
-            firstpointY = new Point(x, y - 1);
-
-        Point secondpointY = new Point(secondpointX.x, firstpointY.y);
-
-        unvisited.offer(secondpointX);
-        unvisited.offer(firstpointY);
-        unvisited.offer(secondpointY);
-
-
-        tiles[secondpointX.y][secondpointX.x].setDistance(0);
-        tiles[firstpointY.y][firstpointY.x].setDistance(0);
-        tiles[secondpointY.y][secondpointY.x].setDistance(0);
-*/
 
         while (!unvisited.isEmpty()) {
             Point p = unvisited.poll();
@@ -146,6 +123,13 @@ public class DistanceMap {
             for (int x = 0; x < tiles[y].length; x++) {
 
                 Tile currentTile = tiles[y][x];
+
+                if(currentTile.getDistance() == 0)
+                {
+                    currentTile.setVector(new Point(0,0));
+                    continue;
+                }
+
 
                 Point right = new Point(x + 1, y);
                 if (!isTileAvailable(right))
@@ -227,7 +211,7 @@ public class DistanceMap {
 
         for (int row = 0; row < tiles.length; row++) {
             for (int col = 0; col < tiles[row].length; col++) {
-                if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1 && tiles[row][col].getDistance() != 0) {
+                if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1){// && tiles[row][col].getDistance() != 0) {
                     int centerX = col * tileSize + tileSize / 2;
                     int centerY = row * tileSize + tileSize / 2;
 
@@ -257,7 +241,6 @@ public class DistanceMap {
     private boolean isInsideMap(Point p) {
         return !(p.x < 0 || p.x >= tiles[0].length || p.y < 0 || p.y >= tiles.length);
     }
-
 
 
     public boolean isNotInitialized(Point p) {
