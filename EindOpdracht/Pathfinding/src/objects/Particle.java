@@ -17,14 +17,15 @@ public class Particle {
 
     private double velocity = 0.1;
     private Color color;
-    private double angle;
+    //  private double angle;
 
 
     public Particle(double radius, Point2D position, Color color) {
         this.radius = radius;
         this.position = position;
         this.color = color;
-        this.angle = 0;
+        //   this.angle = 0;
+        this.vector = new Point2D.Double(0, 0);
     }
 
     public void move(long deltaTime) {
@@ -33,10 +34,10 @@ public class Particle {
         Point currentTile = getOccupyingTile(position);
         setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
 
-        if(!Simulator.getInstance().getTileMap().isAWall(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
+        if (!Simulator.getInstance().getTileMap().isAWall(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
             return;
 
-       // Point2D lastPos = new Point2D.Double(position.getX(), position.getY());
+        // Point2D lastPos = new Point2D.Double(position.getX(), position.getY());
 
         // System.out.println(vector);
         //   Point2D deltaPosition = new Point2D.Double(vector.getX() * velocity, vector.getY() * velocity);
@@ -47,53 +48,133 @@ public class Particle {
         //    int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
         //   int y = (int) position.getY() / Simulator.getInstance().getTileMap().getTileSize();
 
-        double targetAngle = Math.atan2(targetVector.getY(), targetVector.getX());
+        //  double targetAngle = Math.atan2(targetVector.getY(), targetVector.getX());
 
+        System.out.println("Target vector: " + targetVector);
 
-       // Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
+     //   System.out.println("First vector: " + vector);
 
-        double angleDiff = angle - targetAngle;
+        Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
+
+        if (vectorDiff.getX() < 0)
+            vector.setLocation(vector.getX() + 0.0002 * deltaTime, vector.getY());
+        else if (vectorDiff.getX() > 0)
+            vector.setLocation(vector.getX() - 0.0002 * deltaTime, vector.getY());
+
+        if (vectorDiff.getY() < 0)
+            vector.setLocation(vector.getX(), vector.getY() + 0.0002 * deltaTime);
+        else if (vectorDiff.getY() > 0)
+            vector.setLocation(vector.getX(), vector.getY() - 0.0002 * deltaTime);
+
 /*
+        double angleDiff = angle - targetAngle;
+
         while (angleDiff < -Math.PI)
             angleDiff += 2 * Math.PI;
         while (angleDiff > Math.PI)
-            angleDiff -= 2 * Math.PI;*/
+            angleDiff -= 2 * Math.PI;
 
         if (angleDiff < 0)
             angle += 0.0002 * deltaTime; //0.002
         else if (angleDiff > 0)
             angle -= 0.0002 * deltaTime;
-
+*/
 
         Point2D newPosition = new Point2D.Double(
-                position.getX() + (velocity * deltaTime) * Math.cos(angle), position.getY() + (velocity * deltaTime) * Math.sin(angle));
+                position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
 
 
         Point targetTile = getOccupyingTile(newPosition);
 
 
-        Point direction = getDirection(currentTile,targetTile);
+        Point direction = getDirection(currentTile, targetTile);
 
-        if(Simulator.getInstance().getTileMap().isAWall(targetTile)){
-            //Rechts
-           if(direction.x == 1){
-               System.out.println("Hitting right wall");
+        if (Simulator.getInstance().getTileMap().isAWall(targetTile)) {
 
-           }
-           else if (direction.x == -1){
-               System.out.println("Hitting left wall");
-           }
-           else if (direction.y == 1){
-               System.out.println("Hitting bottom wall");
-           }
-           else{
-               System.out.println("Hitting top wall");
-           }
+            //Right
+            if (direction.x == 1) {
+                System.out.println("Hitting right wall");
 
+                //BottomRight
+                if (direction.y == 1) {
+
+                    //Colliding with the right wall
+                    if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x + 1, currentTile.y)))
+                        vector.setLocation(0, vector.getY());
+                        //Colliding with bottom wall
+                    else
+                        vector.setLocation(vector.getX(), 0);
+
+                }
+
+                //TopRight
+                else if (direction.y == -1) {
+
+                    //Colliding with the right wall
+                    if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x + 1, currentTile.y)))
+                        vector.setLocation(0, vector.getY());
+                        //Colliding with top wall
+                    else
+                        vector.setLocation(vector.getX(), 0);
+                }
+
+                //Right
+                else {
+                    vector.setLocation(0/*vector.getX() * -0.75*/, vector.getY());
+                }
+
+                //Left
+            } else if (direction.x == -1) {
+                System.out.println("Hitting left wall");
+
+                //BottomLeft
+                if (direction.y == 1) {
+                    //Colliding with the left wall
+                    if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x - 1, currentTile.y)))
+                        vector.setLocation(0, vector.getY());
+                        //Colliding with bottom wall
+                    else
+                        vector.setLocation(vector.getX(), 0);
+                }
+
+                //Topleft
+                else if (direction.y == -1) {
+
+                    //Colliding with the left wall
+                    if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x - 1, currentTile.y)))
+                        vector.setLocation(0, vector.getY());
+                        //Colliding with top wall
+                    else
+                        vector.setLocation(vector.getX(), 0);
+                }
+
+                //Left
+                else {
+                    vector.setLocation(0/*vector.getX() * -0.75*/, vector.getY());
+                }
+            }
+
+            //Bottom
+            else if (direction.y == 1) {
+                System.out.println("Hitting bottom wall");
+                vector.setLocation(vector.getX(), 0);//vector.getY() * -0.75);
+            }
+
+            //Top
+            else {
+                System.out.println("Hitting top wall");
+                vector.setLocation(vector.getX(), 0);//vector.getY() * -0.75);
+            }
+
+            newPosition = new Point2D.Double(
+                    position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
+
+        } else {
+            // setPosition(newPosition);
         }
 
-
-
+        setPosition(newPosition);
+    //    System.out.println(vector);
 /*
 
         boolean collision = false;
@@ -111,7 +192,7 @@ public class Particle {
         if (collision)
             position = lastPos;
 */
-
+/*
       //  System.out.println(angle);
         if (Simulator.getInstance().getTileMap().isAWall(targetTile)) {
             System.out.println("Hit");
@@ -122,7 +203,7 @@ public class Particle {
             setPosition(newPosition);
         }
       //  System.out.println(angle);
-
+*/
     }
 
 
@@ -131,16 +212,16 @@ public class Particle {
         g2d.fill(new Ellipse2D.Double(position.getX() - radius / 2, position.getY() - radius / 2, radius, radius));
     }
 
-    private Point getOccupyingTile(Point2D point){
+    private Point getOccupyingTile(Point2D point) {
         int x = (int) point.getX() / Simulator.getInstance().getTileMap().getTileSize();
         int y = (int) point.getY() / Simulator.getInstance().getTileMap().getTileSize();
-    return new Point(x,y);
+        return new Point(x, y);
 
     }
 
-    private Point getDirection(Point currentPoint, Point targetPoint){
+    private Point getDirection(Point currentPoint, Point targetPoint) {
 
-        return new Point(targetPoint.x - currentPoint.x,targetPoint.y - currentPoint.y);
+        return new Point(targetPoint.x - currentPoint.x, targetPoint.y - currentPoint.y);
     }
 
 
@@ -177,11 +258,4 @@ public class Particle {
         this.radius = radius;
     }
 
-    public double getAngle() {
-        return angle;
-    }
-
-    private void setAngle(double angle) {
-        this.angle = angle;
-    }
 }
