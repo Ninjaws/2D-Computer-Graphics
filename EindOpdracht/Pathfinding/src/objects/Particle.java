@@ -37,23 +37,6 @@ public class Particle {
         if (!Simulator.getInstance().getTileMap().isAWall(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
             return;
 
-        // Point2D lastPos = new Point2D.Double(position.getX(), position.getY());
-
-        // System.out.println(vector);
-        //   Point2D deltaPosition = new Point2D.Double(vector.getX() * velocity, vector.getY() * velocity);
-
-        //   position.setLocation(new Point2D.Double(position.getX() + deltaPosition.getX(), position.getY() + deltaPosition.getY()));
-
-
-        //    int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
-        //   int y = (int) position.getY() / Simulator.getInstance().getTileMap().getTileSize();
-
-        //  double targetAngle = Math.atan2(targetVector.getY(), targetVector.getX());
-
-     //   System.out.println("Target vector: " + targetVector);
-
-     //   System.out.println("First vector: " + vector);
-
         Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
 
         if (vectorDiff.getX() < 0)

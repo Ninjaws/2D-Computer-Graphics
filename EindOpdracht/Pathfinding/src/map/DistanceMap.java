@@ -63,12 +63,15 @@ public class DistanceMap {
         unvisited.offer(new Point(x, y));
         tiles[y][x].setDistance(0);
 
+        //9 tiles selected
+        /*
         for (int col = (x - 1); col <= (x + 1); col++) {
             for (int row = (y - 1); row <= (y + 1); row++) {
                 tiles[row][col].setDistance(0);
                 unvisited.offer(new Point(col, row));
             }
         }
+        */
 
 
         while (!unvisited.isEmpty()) {
