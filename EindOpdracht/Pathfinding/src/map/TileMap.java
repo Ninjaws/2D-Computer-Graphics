@@ -45,6 +45,14 @@ public class TileMap {
         tiles[14][16] = 1;
         tiles[13][16] = 1;
         tiles[12][17] = 1;
+        tiles[12][16] = 1;
+        tiles[12][15] = 1;
+        tiles[12][14] = 1;
+        tiles[12][13] = 1;
+        tiles[12][12] = 1;
+        tiles[12][11] = 1;
+        tiles[12][10] = 1;
+
       //  tiles[12][18] = 1;
        // tiles[12][19] = 1;
         //tiles[12][20] = 1;

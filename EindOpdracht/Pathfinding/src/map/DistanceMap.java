@@ -63,6 +63,13 @@ public class DistanceMap {
         unvisited.offer(new Point(x, y));
         tiles[y][x].setDistance(0);
 
+        for (int col = (x - 1); col <= (x + 1); col++) {
+            for (int row = (y - 1); row <= (y + 1); row++) {
+                tiles[row][col].setDistance(0);
+                unvisited.offer(new Point(col, row));
+            }
+        }
+
 
         while (!unvisited.isEmpty()) {
             Point p = unvisited.poll();
@@ -124,9 +131,8 @@ public class DistanceMap {
 
                 Tile currentTile = tiles[y][x];
 
-                if(currentTile.getDistance() == 0)
-                {
-                    currentTile.setVector(new Point(0,0));
+                if (currentTile.getDistance() == 0) {
+                    currentTile.setVector(new Point(0, 0));
                     continue;
                 }
 
@@ -136,8 +142,9 @@ public class DistanceMap {
                     right = new Point(x, y);
 
                 Point left = new Point(x - 1, y);
-                if (!isTileAvailable(left))
+                if (!isTileAvailable(left)) {
                     left = new Point(x, y);
+                }
 
                 Point up = new Point(x, y - 1);
                 if (!isTileAvailable(up))
@@ -164,6 +171,33 @@ public class DistanceMap {
                         vector = new Point2D.Double(value, 0);
                     }
                 }
+
+
+                //Left or right tile is a wall
+                if (left.getLocation().equals(new Point(x, y)) || right.getLocation().equals(new Point(x, y))) {
+
+                    int value = (int) Math.round(Math.random()) * 2 - 1;
+
+                    // Check if both up and down have same value
+                    // If yes, randomize value to choose either up or down
+                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
+                        System.out.println("Tile: " + currentTile.getDistance());
+                        vector = new Point2D.Double(0, value);
+                    }
+                }
+                //Top or bottom tile is a wall
+                else if (up.getLocation().equals(new Point(x, y)) || down.getLocation().equals(new Point(x, y))) {
+
+                    int value = (int) Math.round(Math.random()) * 2 - 1;
+
+                    // Check if both up and down have same value
+                    // If yes, randomize value to choose either up or down
+                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
+                        System.out.println("Tile: " + currentTile.getDistance());
+                        vector = new Point2D.Double(value, 0);
+                    }
+                }
+
 
                 double magnitude = Math.sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
 
@@ -211,7 +245,7 @@ public class DistanceMap {
 
         for (int row = 0; row < tiles.length; row++) {
             for (int col = 0; col < tiles[row].length; col++) {
-                if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1){// && tiles[row][col].getDistance() != 0) {
+                if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1) {// && tiles[row][col].getDistance() != 0) {
                     int centerX = col * tileSize + tileSize / 2;
                     int centerY = row * tileSize + tileSize / 2;
 

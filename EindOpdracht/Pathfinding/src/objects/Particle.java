@@ -50,21 +50,21 @@ public class Particle {
 
         //  double targetAngle = Math.atan2(targetVector.getY(), targetVector.getX());
 
-        System.out.println("Target vector: " + targetVector);
+     //   System.out.println("Target vector: " + targetVector);
 
      //   System.out.println("First vector: " + vector);
 
         Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
 
         if (vectorDiff.getX() < 0)
-            vector.setLocation(vector.getX() + 0.0002 * deltaTime, vector.getY());
+            vector.setLocation(vector.getX() + 0.005 * deltaTime, vector.getY());
         else if (vectorDiff.getX() > 0)
-            vector.setLocation(vector.getX() - 0.0002 * deltaTime, vector.getY());
+            vector.setLocation(vector.getX() - 0.005 * deltaTime, vector.getY());
 
         if (vectorDiff.getY() < 0)
-            vector.setLocation(vector.getX(), vector.getY() + 0.0002 * deltaTime);
+            vector.setLocation(vector.getX(), vector.getY() + 0.005 * deltaTime);
         else if (vectorDiff.getY() > 0)
-            vector.setLocation(vector.getX(), vector.getY() - 0.0002 * deltaTime);
+            vector.setLocation(vector.getX(), vector.getY() - 0.005 * deltaTime);
 
 /*
         double angleDiff = angle - targetAngle;
