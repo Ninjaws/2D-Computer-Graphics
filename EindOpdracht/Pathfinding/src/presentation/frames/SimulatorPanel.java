@@ -6,13 +6,10 @@ import presentation.components.DebugDraw;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 
-public class SimulatorPanel extends JPanel implements ActionListener, MouseListener {
+public class SimulatorPanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
     private long deltaTime;
     private long startTime;
@@ -32,6 +29,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         this.optionsPanel = optionsPanel;
 
         addMouseListener(this);
+        addMouseMotionListener(this);
         new Timer(1000 / 60, this).start();
     }
 
@@ -67,10 +65,17 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
 
-
-        //TODO: Build walls
+        //Single press of a button
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            simulator.getTileMap().buildWall(e.getPoint());
+            simulator.getDestination().getDistanceMap().updateDistance();
+        } else if (SwingUtilities.isMiddleMouseButton(e)) {
+            simulator.getTileMap().removeWall(e.getPoint());
+            simulator.getDestination().getDistanceMap().updateDistance();
+        }
     }
 
     @Override
@@ -90,6 +95,26 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        //Holding of a button
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            simulator.getTileMap().buildWall(e.getPoint());
+            simulator.getDestination().getDistanceMap().updateDistance();
+        } else if (SwingUtilities.isMiddleMouseButton(e)) {
+            simulator.getTileMap().removeWall(e.getPoint());
+            simulator.getDestination().getDistanceMap().updateDistance();
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
 
     }
 }

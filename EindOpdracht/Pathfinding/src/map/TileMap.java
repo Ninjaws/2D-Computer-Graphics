@@ -3,6 +3,7 @@ package map;
 import data.Simulator;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class TileMap {
@@ -22,14 +23,14 @@ public class TileMap {
         tiles = new int[rows][columns];
 
 
-        //Making outer tiles walls
+        //Making outer tiles walls, 2 is for permanent walls
         for (int x = 0; x < tiles[0].length; x++) {
-            tiles[0][x] = 1;
-            tiles[tiles.length - 1][x] = 1;
+            tiles[0][x] = 2;
+            tiles[tiles.length - 1][x] = 2;
         }
         for (int y = 0; y < tiles.length; y++) {
-            tiles[y][0] = 1;
-            tiles[y][tiles[0].length - 1] = 1;
+            tiles[y][0] = 2;
+            tiles[y][tiles[0].length - 1] = 2;
         }
 
 
@@ -60,13 +61,48 @@ public class TileMap {
 
     }
 
+    public void buildWall(Point2D position){
+
+        int x = (int) position.getX() / tileSize;
+        int y = (int) position.getY() / tileSize;
+
+        //Return if the point is out of the map
+        if (!isInsideMap(new Point(x,y)))
+            return;
+
+
+        if(tiles[y][x] == 0){
+            tiles[y][x] = 1;
+        }
+
+    }
+
+    public void removeWall(Point2D position){
+
+       // if (position.getX() >= tiles[0].length * tileSize || position.getY() >= tiles.length * tileSize)
+       //     return;
+
+        int x = (int) position.getX() / tileSize;
+        int y = (int) position.getY() / tileSize;
+
+        //Return if the point is out of the map
+        if (!isInsideMap(new Point(x,y)))
+            return;
+
+        //Only allow the removal of non-permanent (1) walls, not permanent (2) walls
+        if(tiles[y][x] == 1){
+            tiles[y][x] = 0;
+        }
+    }
+
+
     public void drawMap(Graphics2D g2d) {
 
         for (int row = 0; row < tiles.length; row++) {
             for (int col = 0; col < tiles[row].length; col++) {
                 Rectangle2D rect = new Rectangle2D.Double(col * tileSize, row * tileSize, tileSize, tileSize);
 
-                if (tiles[row][col] == 1) {
+                if (tiles[row][col] == 1 || tiles[row][col] == 2) {
                     g2d.setColor(new Color(205,205,180,100));
                     g2d.fill(rect);
                 } else {
@@ -96,6 +132,10 @@ public class TileMap {
     }
 
     public boolean isAWall(Point p) {
-        return tiles[p.y][p.x] == 1;
+        return tiles[p.y][p.x] == 1 || tiles[p.y][p.x] == 2;
+    }
+
+    public boolean isInsideMap(Point p) {
+        return !(p.x < 0 || p.x >= tiles[0].length || p.y < 0 || p.y >= tiles.length);
     }
 }

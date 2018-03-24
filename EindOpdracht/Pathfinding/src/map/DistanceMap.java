@@ -14,10 +14,11 @@ import java.util.LinkedList;
 public class DistanceMap {
 
     private Tile tiles[][];
+    private Point2D lastCalculatedPoint;
 
     public DistanceMap() {
         this.tiles = new Tile[Simulator.getInstance().getTileMap().getTiles().length][Simulator.getInstance().getTileMap().getTiles()[0].length];
-
+        this.lastCalculatedPoint = new Point2D.Double(0, 0);
         addTiles();
     }
 
@@ -40,21 +41,25 @@ public class DistanceMap {
         }
     }
 
+    public void updateDistance() {
+        calculateDistance(lastCalculatedPoint);
+    }
 
     public void calculateDistance(Point2D position) {
-        //Return if the point is out of the map
-        if (position.getX() >= tiles[0].length * Simulator.getInstance().getTileMap().getTileSize() || position.getY() >= tiles.length * Simulator.getInstance().getTileMap().getTileSize())
-            return;
 
         int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
         int y = (int) position.getY() / Simulator.getInstance().getTileMap().getTileSize();
 
+        //Return if the point is out of the map
+        if (!Simulator.getInstance().getTileMap().isInsideMap(new Point(x, y)))
+            return;
 
         //Return if the point is on a wall
-        if (Simulator.getInstance().getTileMap().getTiles()[y][x] == 1)
+        if (Simulator.getInstance().getTileMap().getTiles()[y][x] == 1 || Simulator.getInstance().getTileMap().getTiles()[y][x] == 2)
             return;
 
         resetTiles();
+        lastCalculatedPoint = position;
 
         int maxDistance = 0;
 
@@ -109,7 +114,6 @@ public class DistanceMap {
         calculateVectorField();
     }
 
-
     private void calculateHeatMap(int maxDistance) {
 
         double relativeDistance = 1.0 / maxDistance;
@@ -163,18 +167,68 @@ public class DistanceMap {
 
                 //Local Optima problem
                 if (vector.getX() == 0 && vector.getY() == 0) {
-                    int value = (int) Math.round(Math.random()) * 2 - 1;
 
                     // Walls on both horizontal sides
                     if (tiles[left.y][left.x].getDistance() == tiles[y][x].getDistance() && tiles[right.y][right.x].getDistance() == tiles[y][x].getDistance()) {
 
-                        vector = new Point2D.Double(0, value);
+                        vector = new Point2D.Double(0, -1);
                     } else {
 
-                        vector = new Point2D.Double(value, 0);
+                        vector = new Point2D.Double(-1, 0);
                     }
                 }
 
+
+                //Wallcheck relies on the earlier "isTileAvailable", which sets the position to equal the current position in case of a wall
+
+                //Left tile is a wall
+                if (left.getLocation().equals(new Point(x, y))) {
+                    //Up and down are the same value
+                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
+                        //The vector is pointing straight at the wall
+                        if (vector.getX() == -1) {
+                            vector = new Point2D.Double(0, -1);
+                        }
+                    }
+                }
+
+                //Right tile is a wall
+                else if (right.getLocation().equals(new Point(x, y))) {
+                    //Up and down are the same value
+                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
+                        //The vector is pointing straight at the wall
+                        if (vector.getX() == 1) {
+                            vector = new Point2D.Double(0, -1);
+                        }
+                    }
+                }
+
+                //Up tile is a wall
+                else if (up.getLocation().equals(new Point(x, y))) {
+                    //Up and down are the same value
+                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
+                        //The vector is pointing straight at the wall
+                        if (vector.getY() == -1) {
+                            vector = new Point2D.Double(-1, 0);
+                        }
+                    }
+                }
+
+                //Down tile is a wall
+                else if (down.getLocation().equals(new Point(x, y))) {
+                    //Up and down are the same value
+                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
+                        //The vector is pointing straight at the wall
+                        if (vector.getY() == 1) {
+                            vector = new Point2D.Double(-1, 0);
+                        }
+                    }
+                }
+
+
+
+
+                /*
 
                 //Left or right tile is a wall
                 if (left.getLocation().equals(new Point(x, y)) || right.getLocation().equals(new Point(x, y))) {
@@ -193,13 +247,14 @@ public class DistanceMap {
 
                     int value = (int) Math.round(Math.random()) * 2 - 1;
 
-                    // Check if both up and down have same value
-                    // If yes, randomize value to choose either up or down
+                    // Check if both left and right have same value
+                    // If yes, randomize value to choose either left or right
                     if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
                         System.out.println("Tile: " + currentTile.getDistance());
                         vector = new Point2D.Double(value, 0);
                     }
                 }
+                */
 
 
                 double magnitude = Math.sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
@@ -229,7 +284,6 @@ public class DistanceMap {
         }
     }
 
-
     public void drawDistanceMap(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         for (int row = 0; row < tiles.length; row++) {
@@ -240,7 +294,6 @@ public class DistanceMap {
             }
         }
     }
-
 
     public void drawVectorField(Graphics2D g2d) {
 
@@ -272,11 +325,7 @@ public class DistanceMap {
      * @return Whether the tile is walkable and not outside the map
      */
     private boolean isTileAvailable(Point p) {
-        return (isInsideMap(p) && !Simulator.getInstance().getTileMap().isAWall(p));
-    }
-
-    private boolean isInsideMap(Point p) {
-        return !(p.x < 0 || p.x >= tiles[0].length || p.y < 0 || p.y >= tiles.length);
+        return (Simulator.getInstance().getTileMap().isInsideMap(p) && !Simulator.getInstance().getTileMap().isAWall(p));
     }
 
 
@@ -288,4 +337,6 @@ public class DistanceMap {
     public Tile[][] getTiles() {
         return tiles;
     }
+
+
 }
