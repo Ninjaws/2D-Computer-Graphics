@@ -9,26 +9,35 @@ public class OptionsPanel extends JPanel {
     private JCheckBox showDistanceMap;
     private JCheckBox showVectorField;
 
-    public OptionsPanel(){
+    private JCheckBox setBounceCollision;
 
-        JPanel gridPanel = new JPanel(new GridLayout(3,1));
+    public OptionsPanel() {
 
-        gridPanel.add(showHeatMap = new JCheckBox("Show Heat Map"));
-        gridPanel.add(showDistanceMap = new JCheckBox("Show Distance Map"));
-        gridPanel.add(showVectorField = new JCheckBox("Show Vector Field"));
+        JPanel gridPanel = new JPanel(new GridLayout(5, 1));
+
+        gridPanel.add(showHeatMap = new JCheckBox("Show Heat Map",true));
+        gridPanel.add(showDistanceMap = new JCheckBox("Show Distance Map",true));
+        gridPanel.add(showVectorField = new JCheckBox("Show Vector Field",true));
+        gridPanel.add(new JPanel());
+        gridPanel.add(setBounceCollision = new JCheckBox("Set Bounce Collision",true));
 
         add(gridPanel);
     }
 
 
-
-    public boolean showHeatMap(){
+    public boolean showHeatMap() {
         return showHeatMap.isSelected();
     }
-    public boolean showDistanceMap(){
+
+    public boolean showDistanceMap() {
         return showDistanceMap.isSelected();
     }
-    public boolean showVectorField(){
+
+    public boolean showVectorField() {
         return showVectorField.isSelected();
+    }
+
+    public boolean setBounceCollision(){
+        return setBounceCollision.isSelected();
     }
 }

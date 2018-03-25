@@ -16,9 +16,12 @@ public class DistanceMap {
     private Tile tiles[][];
     private Point2D lastCalculatedPoint;
 
+    private boolean singleCenterPoint;
+
     public DistanceMap() {
         this.tiles = new Tile[Simulator.getInstance().getTileMap().getTiles().length][Simulator.getInstance().getTileMap().getTiles()[0].length];
         this.lastCalculatedPoint = new Point2D.Double(0, 0);
+        this.singleCenterPoint = true;
         addTiles();
     }
 
@@ -68,15 +71,31 @@ public class DistanceMap {
         unvisited.offer(new Point(x, y));
         tiles[y][x].setDistance(0);
 
-        //9 tiles selected
-        /*
-        for (int col = (x - 1); col <= (x + 1); col++) {
-            for (int row = (y - 1); row <= (y + 1); row++) {
-                tiles[row][col].setDistance(0);
-                unvisited.offer(new Point(col, row));
+
+        singleCenterPoint = false;
+        for (int col = (x-1); col <= (x+2); col++) {
+            for (int row = (y-1); row <= (y+2); row++) {
+
+
+                if (Simulator.getInstance().getTileMap().isAWall(new Point(col, row))) {
+                    singleCenterPoint = true;
+                    break;
+                }
+
             }
         }
-        */
+
+        //4 tiles selected
+        if (!singleCenterPoint) {
+            for (int col = (x); col <= (x+1); col++) {
+                for (int row = (y); row <= (y+1); row++) {
+
+                    tiles[row][col].setDistance(0);
+                    unvisited.offer(new Point(col, row));
+                }
+            }
+
+        }
 
 
         while (!unvisited.isEmpty()) {
@@ -89,10 +108,12 @@ public class DistanceMap {
                     if (col < 0 || col >= tiles[0].length || row < 0 || row >= tiles.length)
                         continue;
 
+
                     //Exclude diagonal tiles
                     if (col < p.x && row < p.y || col > p.x && row < p.y ||
                             col < p.x && row > p.y || col > p.x && row > p.y)
                         continue;
+
 
 
                     //Has to be walkable and unedited
@@ -138,9 +159,12 @@ public class DistanceMap {
 
                 Tile currentTile = tiles[y][x];
 
+
                 if (currentTile.getDistance() == 0) {
-                    currentTile.setVector(new Point(0, 0));
-                    continue;
+                    if (singleCenterPoint) {
+                        currentTile.setVector(new Point(0, 0));
+                        continue;
+                    }
                 }
 
 

@@ -8,7 +8,7 @@ public class Main {
 
         Simulator.getInstance().setTileMap(new TileMap(20, 40, 32));
         Simulator.getInstance().setDestination(new Destination());
-        Simulator.getInstance().addParticles();
+       // Simulator.getInstance().addParticles();
 
         SimulatorFrame simulatorFrame = new SimulatorFrame();
     }

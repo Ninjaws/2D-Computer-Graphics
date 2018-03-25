@@ -13,7 +13,9 @@ public class Simulator {
     private TileMap tileMap;
     private Destination destination;
     private ArrayList<Particle> particles = new ArrayList<>();
-    private int amountOfParticles =20;
+    private int maxAmountOfParticles = 20000;
+    private int amountOfParticles = 1000;
+    private int particleSize = 2;
 
     private Simulator() {
     }
@@ -26,17 +28,35 @@ public class Simulator {
     }
 
 
-    public void addParticles() {
-        if (tileMap != null)
-            while (particles.size() < amountOfParticles) {
-                particles.add(new Particle(tileMap.getTileSize()/2, new Point2D.Double(Simulator.getInstance().tileMap.getTileSize() * 2 + tileMap.getTileSize() * particles.size(), Simulator.getInstance().tileMap.getTileSize()*2), new Color(255, 200, 0)));
-
-
+    public void spawnParticle(Point2D position) {
+        if (tileMap != null) {
+            if(particles.size() < maxAmountOfParticles) {
+                int x = (int) position.getX() / tileMap.getTileSize();
+                int y = (int) position.getY() / tileMap.getTileSize();
+                if (tileMap.isInsideMap(new Point(x, y)) && !tileMap.isAWall(new Point(x, y)))
+                    particles.add(new Particle(particleSize, position, Color.ORANGE));
             }
-        for (Particle p : particles) {
-            System.out.println(p.getPosition());
         }
+    }
 
+    public void spawnAmountOfParticles(Point2D position){
+        if(tileMap != null){
+            if(particles.size() < maxAmountOfParticles) {
+                int x = (int) position.getX() / tileMap.getTileSize();
+                int y = (int) position.getY() / tileMap.getTileSize();
+                if (tileMap.isInsideMap(new Point(x, y)) && !tileMap.isAWall(new Point(x, y))) {
+                    for (int i = 0; i < amountOfParticles; i++) {
+                        Point2D pPos = new Point2D.Double(position.getX() + (tileMap.getTileSize() * Math.random()), position.getY() + (tileMap.getTileSize() * Math.random()));
+
+                        int px = (int) pPos.getX() / tileMap.getTileSize();
+                        int py = (int) pPos.getY() / tileMap.getTileSize();
+
+                        if(!tileMap.isAWall(new Point(px,py)))
+                        particles.add(new Particle(particleSize, pPos, Color.ORANGE));
+                    }
+                }
+            }
+        }
     }
 
 

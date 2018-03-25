@@ -33,32 +33,6 @@ public class TileMap {
             tiles[y][tiles[0].length - 1] = 2;
         }
 
-
-        tiles[10][20] = 1;
-        tiles[11][20] = 1;
-        tiles[12][20] = 1;
-        tiles[13][20] = 1;
-        tiles[14][20] = 1;
-        tiles[15][20] = 1;
-        tiles[15][19] = 1;
-        tiles[15][18] = 1;
-        tiles[15][16] = 1;
-        tiles[14][16] = 1;
-        tiles[13][16] = 1;
-        tiles[12][17] = 1;
-        tiles[12][16] = 1;
-        tiles[12][15] = 1;
-        tiles[12][14] = 1;
-        tiles[12][13] = 1;
-        tiles[12][12] = 1;
-        tiles[12][11] = 1;
-        tiles[12][10] = 1;
-
-      //  tiles[12][18] = 1;
-       // tiles[12][19] = 1;
-        //tiles[12][20] = 1;
-
-
     }
 
     public void buildWall(Point2D position){
@@ -132,7 +106,10 @@ public class TileMap {
     }
 
     public boolean isAWall(Point p) {
+        if(isInsideMap(p))
         return tiles[p.y][p.x] == 1 || tiles[p.y][p.x] == 2;
+    else
+        return isInsideMap(p);
     }
 
     public boolean isInsideMap(Point p) {

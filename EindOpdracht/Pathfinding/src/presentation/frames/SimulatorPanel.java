@@ -17,9 +17,10 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
     Simulator simulator;
     OptionsPanel optionsPanel;
+    StatisticsPanel statisticsPanel;
 
 
-    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel) {
+    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel, StatisticsPanel statisticsPanel) {
 
         startTime = 0;
         endTime = 0;
@@ -27,6 +28,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         simulator = Simulator.getInstance();
         this.optionsPanel = optionsPanel;
+        this.statisticsPanel = statisticsPanel;
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -56,9 +58,10 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         deltaTime = endTime - startTime;
         startTime = System.currentTimeMillis();
 
-        for (Particle p : simulator.getParticles())
+        for (Particle p : simulator.getParticles()) {
+            p.setBounceCollision(optionsPanel.setBounceCollision());
             p.move(deltaTime);
-
+        }
 
         repaint();
     }
@@ -68,7 +71,11 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         //Single press of a button
         if (SwingUtilities.isLeftMouseButton(e)) {
-            simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
+            if (e.isControlDown()) {
+                simulator.spawnAmountOfParticles(e.getPoint());
+                statisticsPanel.updateParticleLabel();
+            } else
+                simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
         } else if (SwingUtilities.isRightMouseButton(e)) {
             simulator.getTileMap().buildWall(e.getPoint());
             simulator.getDestination().getDistanceMap().updateDistance();
@@ -103,7 +110,11 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         //Holding of a button
         if (SwingUtilities.isLeftMouseButton(e)) {
-            simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
+            if (e.isControlDown()) {
+                simulator.spawnParticle(e.getPoint());
+                statisticsPanel.updateParticleLabel();
+            } else
+                simulator.getDestination().getDistanceMap().calculateDistance(e.getPoint());
         } else if (SwingUtilities.isRightMouseButton(e)) {
             simulator.getTileMap().buildWall(e.getPoint());
             simulator.getDestination().getDistanceMap().updateDistance();
