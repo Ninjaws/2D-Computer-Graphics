@@ -44,10 +44,18 @@ public class DistanceMap {
         }
     }
 
+    /**
+     * Recalculates the distance map based on the previously chosen mouse point
+     */
     public void updateDistance() {
         calculateDistance(lastCalculatedPoint);
     }
 
+    /**
+     * Calculates the distance of the tiles from the mouse position
+     *
+     * @param position The position of the mouse
+     */
     public void calculateDistance(Point2D position) {
 
         int x = (int) position.getX() / Simulator.getInstance().getTileMap().getTileSize();
@@ -68,13 +76,10 @@ public class DistanceMap {
 
         Queue<Point> unvisited = new LinkedList<>();
 
-        unvisited.offer(new Point(x, y));
-        tiles[y][x].setDistance(0);
-
 
         singleCenterPoint = false;
-        for (int col = (x-1); col <= (x+2); col++) {
-            for (int row = (y-1); row <= (y+2); row++) {
+        for (int col = (x - 1); col <= (x + 2); col++) {
+            for (int row = (y - 1); row <= (y + 2); row++) {
 
 
                 if (Simulator.getInstance().getTileMap().isAWall(new Point(col, row))) {
@@ -87,14 +92,17 @@ public class DistanceMap {
 
         //4 tiles selected
         if (!singleCenterPoint) {
-            for (int col = (x); col <= (x+1); col++) {
-                for (int row = (y); row <= (y+1); row++) {
+            for (int col = (x); col <= (x + 1); col++) {
+                for (int row = (y); row <= (y + 1); row++) {
 
                     tiles[row][col].setDistance(0);
                     unvisited.offer(new Point(col, row));
                 }
             }
 
+        } else {
+            unvisited.offer(new Point(x, y));
+            tiles[y][x].setDistance(0);
         }
 
 
@@ -113,7 +121,6 @@ public class DistanceMap {
                     if (col < p.x && row < p.y || col > p.x && row < p.y ||
                             col < p.x && row > p.y || col > p.x && row > p.y)
                         continue;
-
 
 
                     //Has to be walkable and unedited

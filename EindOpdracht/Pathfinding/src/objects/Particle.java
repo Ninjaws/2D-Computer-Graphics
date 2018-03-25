@@ -31,6 +31,15 @@ public class Particle {
         this.bounceCollision = false;
     }
 
+    public Particle(double radius, Point2D position) {
+        this.radius = radius;
+        this.position = position;
+     //   this.color = color;
+        //   this.angle = 0;
+        this.vector = new Point2D.Double(0, 0);
+        this.bounceCollision = false;
+    }
+
     public void move(long deltaTime) {
 
 
@@ -246,7 +255,7 @@ public class Particle {
 
 
     public void draw(Graphics2D g2d) {
-        g2d.setColor(color);
+        g2d.setColor(Simulator.getInstance().getParticleColor());
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.5f));
         g2d.fill(new Ellipse2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2));
     }

@@ -19,6 +19,11 @@ public class TileMap {
         setMap(rows, columns);
     }
 
+    /**
+     *
+     * @param rows
+     * @param columns
+     */
     public void setMap(int rows, int columns) {
         tiles = new int[rows][columns];
 
@@ -35,36 +40,58 @@ public class TileMap {
 
     }
 
-    public void buildWall(Point2D position){
+    /**
+     * Removes all built walls
+     */
+    public void resetMap() {
+        for (int row = 0; row < tiles.length; row++) {
+            for (int col = 0; col < tiles[row].length; col++) {
+                if (tiles[row][col] != 2)
+                    tiles[row][col] = 0;
+            }
+        }
+    }
+
+    /**
+     * Sets a wall tile on the mouse position
+     *
+     * @param position The mouse position
+     */
+    public void buildWall(Point2D position) {
 
         int x = (int) position.getX() / tileSize;
         int y = (int) position.getY() / tileSize;
 
         //Return if the point is out of the map
-        if (!isInsideMap(new Point(x,y)))
+        if (!isInsideMap(new Point(x, y)))
             return;
 
 
-        if(tiles[y][x] == 0){
+        if (tiles[y][x] == 0) {
             tiles[y][x] = 1;
         }
 
     }
 
-    public void removeWall(Point2D position){
+    /**
+     * Removes a wall tile on the mouse position
+     *
+     * @param position The mouse position
+     */
+    public void removeWall(Point2D position) {
 
-       // if (position.getX() >= tiles[0].length * tileSize || position.getY() >= tiles.length * tileSize)
-       //     return;
+        // if (position.getX() >= tiles[0].length * tileSize || position.getY() >= tiles.length * tileSize)
+        //     return;
 
         int x = (int) position.getX() / tileSize;
         int y = (int) position.getY() / tileSize;
 
         //Return if the point is out of the map
-        if (!isInsideMap(new Point(x,y)))
+        if (!isInsideMap(new Point(x, y)))
             return;
 
         //Only allow the removal of non-permanent (1) walls, not permanent (2) walls
-        if(tiles[y][x] == 1){
+        if (tiles[y][x] == 1) {
             tiles[y][x] = 0;
         }
     }
@@ -77,7 +104,7 @@ public class TileMap {
                 Rectangle2D rect = new Rectangle2D.Double(col * tileSize, row * tileSize, tileSize, tileSize);
 
                 if (tiles[row][col] == 1 || tiles[row][col] == 2) {
-                    g2d.setColor(new Color(205,205,180,100));
+                    g2d.setColor(new Color(205, 205, 180, 100));
                     g2d.fill(rect);
                 } else {
                     g2d.setColor(Color.DARK_GRAY);
@@ -106,10 +133,10 @@ public class TileMap {
     }
 
     public boolean isAWall(Point p) {
-        if(isInsideMap(p))
-        return tiles[p.y][p.x] == 1 || tiles[p.y][p.x] == 2;
-    else
-        return isInsideMap(p);
+        if (isInsideMap(p))
+            return tiles[p.y][p.x] == 1 || tiles[p.y][p.x] == 2;
+        else
+            return isInsideMap(p);
     }
 
     public boolean isInsideMap(Point p) {
