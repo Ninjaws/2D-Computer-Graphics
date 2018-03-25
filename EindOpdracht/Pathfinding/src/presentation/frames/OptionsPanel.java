@@ -1,11 +1,10 @@
 package presentation.frames;
 
 import data.Simulator;
-import javafx.scene.control.ColorPicker;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.beans.EventHandler;
 
 public class OptionsPanel extends JPanel {
 
@@ -15,17 +14,14 @@ public class OptionsPanel extends JPanel {
 
     private JCheckBox setBounceCollision;
 
-    private JButton resetButton;
-    private JButton chooseColorButton;
 
-
-    private boolean insideDialog;
+    private boolean paused;
 
     public OptionsPanel(StatisticsPanel statisticsPanel) {
 
-        insideDialog = false;
+        paused = false;
 
-        JPanel gridPanel = new JPanel(new GridLayout(7, 1));
+        JPanel gridPanel = new JPanel(new GridLayout(12, 1));
 
         gridPanel.add(showHeatMap = new JCheckBox("Show Heat Map", true));
         gridPanel.add(showDistanceMap = new JCheckBox("Show Distance Map", true));
@@ -33,7 +29,8 @@ public class OptionsPanel extends JPanel {
         gridPanel.add(new JPanel());
         gridPanel.add(setBounceCollision = new JCheckBox("Set Bounce Collision", true));
 
-        resetButton = new JButton("Reset Field");
+
+        JButton resetButton = new JButton("Reset Field");
         resetButton.addActionListener(e -> {
             Simulator.getInstance().deleteParticles();
             Simulator.getInstance().getTileMap().resetMap();
@@ -42,20 +39,52 @@ public class OptionsPanel extends JPanel {
         });
         gridPanel.add(resetButton);
 
-        chooseColorButton = new JButton("Set Particle Color");
+
+        JButton chooseColorButton = new JButton("Set Particle Color");
         chooseColorButton.addActionListener(e ->
         {
-            insideDialog = true;
+            paused = true;
             ColorChooserDialog dialog = new ColorChooserDialog("Choose a color", Simulator.getInstance().getParticleColor());
             ColorChooserDialog.DialogResult result = dialog.getResult();
             if (result != null) {
-                System.out.println("Color - " + result.getColor());
+                Simulator.getInstance().setParticleTexture(null);
                 Simulator.getInstance().setParticleColor(result.getColor());
             }
-            insideDialog = false;
+            paused = false;
         });
         gridPanel.add(chooseColorButton);
 
+
+        JButton chooseImageButton = new JButton("Set Particle Image");
+        chooseImageButton.addActionListener(e -> {
+            paused = true;
+
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "JPG & PNG Images", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+            int returnVal = fileChooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+                Simulator.getInstance().setParticleTexture(fileChooser.getSelectedFile());
+            }
+
+            paused = false;
+        });
+        gridPanel.add(chooseImageButton);
+
+
+        JButton pauseButton = new JButton("(Un)Pause Simulation");
+        pauseButton.addActionListener(e -> {
+            if (paused)
+                paused = false;
+            else
+                paused = true;
+        });
+        gridPanel.add(pauseButton);
 
         add(gridPanel);
     }
@@ -78,8 +107,8 @@ public class OptionsPanel extends JPanel {
     }
 
 
-    public boolean isInsideDialog() {
-        return insideDialog;
+    public boolean isPaused() {
+        return paused;
     }
 
 }

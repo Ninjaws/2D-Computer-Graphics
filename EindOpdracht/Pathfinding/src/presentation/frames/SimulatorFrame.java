@@ -18,6 +18,7 @@ public class SimulatorFrame extends JFrame {
         int height = Simulator.getInstance().getTileMap().getTiles().length * Simulator.getInstance().getTileMap().getTileSize() + yMargin;
 
 
+        buildMenu();
         buildPanel(width, height);
 
         setSize(width, height);
@@ -31,12 +32,44 @@ public class SimulatorFrame extends JFrame {
         StatisticsPanel statisticsPanel = new StatisticsPanel();
         OptionsPanel optionsPanel = new OptionsPanel(statisticsPanel);
 
-        content.add(statisticsPanel,BorderLayout.NORTH);
+        content.add(statisticsPanel, BorderLayout.NORTH);
         content.add(optionsPanel, BorderLayout.WEST);
         content.add(new SimulatorPanel(width, height, optionsPanel, statisticsPanel), BorderLayout.CENTER);
 
 
         super.setContentPane(content);
+    }
+
+    public void buildMenu() {
+        JMenuBar bar = new JMenuBar();
+
+
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.addActionListener(e -> {
+
+        });
+        bar.add(fileMenu);
+
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem controlsItem = new JMenuItem("Controls");
+        controlsItem.addActionListener(e ->
+        {
+
+        });
+        helpMenu.add(controlsItem);
+
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(e -> {
+
+        });
+        helpMenu.add(aboutItem);
+
+        bar.add(helpMenu);
+
+
+        super.setJMenuBar(bar);
+
     }
 
 }

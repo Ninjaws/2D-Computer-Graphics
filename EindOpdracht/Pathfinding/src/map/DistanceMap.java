@@ -169,7 +169,7 @@ public class DistanceMap {
 
                 if (currentTile.getDistance() == 0) {
                     if (singleCenterPoint) {
-                        currentTile.setVector(new Point(0, 0));
+                        tiles[y][x].setVector(new Point2D.Double(0.0, 0.0));
                         continue;
                     }
                 }

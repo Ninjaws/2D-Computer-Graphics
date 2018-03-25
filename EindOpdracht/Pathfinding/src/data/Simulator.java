@@ -3,9 +3,12 @@ package data;
 import map.TileMap;
 import objects.Particle;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Simulator {
@@ -111,5 +114,20 @@ public class Simulator {
 
     public void setParticleColor(Color particleColor) {
         this.particleColor = particleColor;
+    }
+
+    public BufferedImage getParticleTexture() {
+        return particleTexture;
+    }
+
+    public void setParticleTexture(File filePath) {
+
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(filePath);
+        } catch (Exception e) {
+        }
+
+        this.particleTexture = image;
     }
 }

@@ -5,6 +5,7 @@ import data.Simulator;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,7 +35,7 @@ public class Particle {
     public Particle(double radius, Point2D position) {
         this.radius = radius;
         this.position = position;
-     //   this.color = color;
+        //   this.color = color;
         //   this.angle = 0;
         this.vector = new Point2D.Double(0, 0);
         this.bounceCollision = false;
@@ -42,22 +43,15 @@ public class Particle {
 
     public void move(long deltaTime) {
 
-
         Point currentTile = getOccupyingTile(position);
 
-        if (!Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector().equals(new Point2D.Double(0, 0))) {
-            // if (Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector().equals(new Point2D.Double(0,0))) {
+        if (!Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector().equals(new Point2D.Double(0.0, 0.0))) {
+          setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
             double angle = Math.random() * Math.PI * 2;
             setVector(new Point2D.Double(Math.cos(angle) / 2, Math.sin(angle) / 2));
-            //   }
-
-            //     else
-            //        setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
-
-        } else
-
-            setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
-
+        } else {
+                setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
+        }
 
         if (Simulator.getInstance().getTileMap().isAWall(currentTile) || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
             return;
@@ -255,9 +249,24 @@ public class Particle {
 
 
     public void draw(Graphics2D g2d) {
-        g2d.setColor(Simulator.getInstance().getParticleColor());
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.5f));
-        g2d.fill(new Ellipse2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2));
+
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+
+        if (Simulator.getInstance().getParticleTexture() != null) {
+
+            Rectangle2D rect = new Rectangle2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2);
+
+            g2d.setPaint(new TexturePaint(Simulator.getInstance().getParticleTexture(), rect));
+            g2d.fill(rect);
+
+
+        } else {
+            g2d.setColor(Simulator.getInstance().getParticleColor());
+
+            g2d.fill(new Ellipse2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2));
+
+        }
+
     }
 
     private Point getOccupyingTile(Point2D point) {

@@ -50,7 +50,6 @@ public class ColorChooserDialog extends JDialog {
             dispose();
         });
         JPanel buttonPanel = new JPanel(new FlowLayout());
-
         buttonPanel.add(save);
 
         panel.add(buttonPanel,BorderLayout.CENTER);

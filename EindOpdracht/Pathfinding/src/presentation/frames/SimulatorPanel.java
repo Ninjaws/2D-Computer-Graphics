@@ -7,7 +7,6 @@ import presentation.components.DebugDraw;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 
 public class SimulatorPanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -62,7 +61,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         deltaTime = endTime - startTime;
         startTime = System.currentTimeMillis();
 
-        paused = optionsPanel.isInsideDialog();
+        paused = optionsPanel.isPaused();
 
 
         if (!paused) {
@@ -93,6 +92,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
             simulator.getTileMap().removeWall(e.getPoint());
             simulator.getDestination().getDistanceMap().updateDistance();
         }
+        repaint();
     }
 
     @Override
@@ -132,6 +132,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
             simulator.getTileMap().removeWall(e.getPoint());
             simulator.getDestination().getDistanceMap().updateDistance();
         }
+        repaint();
     }
 
     @Override
