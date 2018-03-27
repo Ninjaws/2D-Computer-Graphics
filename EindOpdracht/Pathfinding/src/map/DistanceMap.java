@@ -1,5 +1,6 @@
 package map;
 
+import calculations.VecMath;
 import data.Simulator;
 import data.Tile;
 
@@ -164,8 +165,15 @@ public class DistanceMap {
         for (int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[y].length; x++) {
 
-                Tile currentTile = tiles[y][x];
 
+                //Filter out everything that is not available
+                //Due to the outer layer being a wall, there is no risk of going out of bounds
+
+                if (!isTileAvailable(new Point(x, y)))
+                    continue;
+
+
+                Tile currentTile = tiles[y][x];
 
                 if (currentTile.getDistance() == 0) {
                     if (singleCenterPoint) {
@@ -177,30 +185,60 @@ public class DistanceMap {
 
                 Point right = new Point(x + 1, y);
                 if (!isTileAvailable(right))
-                    right = new Point(x, y);
+                    //   right = new Point(x, y);
+                    tiles[right.y][right.x].setDistance(tiles[y][x].getDistance());
 
                 Point left = new Point(x - 1, y);
-                if (!isTileAvailable(left)) {
-                    left = new Point(x, y);
-                }
+                if (!isTileAvailable(left))
+                    //   left = new Point(x, y);
+                    tiles[left.y][left.x].setDistance(tiles[y][x].getDistance());
 
                 Point up = new Point(x, y - 1);
                 if (!isTileAvailable(up))
-                    up = new Point(x, y);
+                    //   up = new Point(x, y);
+                    tiles[up.y][up.x].setDistance(tiles[y][x].getDistance());
 
                 Point down = new Point(x, y + 1);
                 if (!isTileAvailable(down))
-                    down = new Point(x, y);
+                    // down = new Point(x, y);
+                    tiles[down.y][down.x].setDistance(tiles[y][x].getDistance());
+
+
+                //Raising values when the vector wil point at the wall, to prevent this
+
+                if (Simulator.getInstance().getTileMap().isAWall(right)) {
+                    if (tiles[left.y][left.x].getDistance() > currentTile.getDistance()) {
+                        tiles[right.y][right.x].setDistance(tiles[right.y][right.x].getDistance() + 1);
+                    }
+                }
+                if (Simulator.getInstance().getTileMap().isAWall(left)) {
+                    if (tiles[right.y][right.x].getDistance() > currentTile.getDistance()) {
+                        tiles[left.y][left.x].setDistance(tiles[left.y][left.x].getDistance() + 1);
+                    }
+                }
+                if (Simulator.getInstance().getTileMap().isAWall(up)) {
+                    if (tiles[down.y][down.x].getDistance() > currentTile.getDistance()) {
+                        tiles[up.y][up.x].setDistance(tiles[up.y][up.x].getDistance() + 1);
+                    }
+                }
+                if (Simulator.getInstance().getTileMap().isAWall(down)) {
+                    if (tiles[up.y][up.x].getDistance() > currentTile.getDistance()) {
+                        tiles[down.y][down.x].setDistance(tiles[down.y][down.x].getDistance() + 1);
+                    }
+                }
 
 
                 Point2D vector = new Point2D.Double(tiles[left.y][left.x].getDistance() - tiles[right.y][right.x].getDistance(),
                         tiles[up.y][up.x].getDistance() - tiles[down.y][down.x].getDistance());
 
+
+
+
                 //Local Optima problem
                 if (vector.getX() == 0 && vector.getY() == 0) {
 
                     // Walls on both horizontal sides
-                    if (tiles[left.y][left.x].getDistance() == tiles[y][x].getDistance() && tiles[right.y][right.x].getDistance() == tiles[y][x].getDistance()) {
+                    if (Simulator.getInstance().getTileMap().isAWall(left) || Simulator.getInstance().getTileMap().isAWall(right)) {
 
                         vector = new Point2D.Double(0, -1);
                     } else {
@@ -210,88 +248,41 @@ public class DistanceMap {
                 }
 
 
-                //Wallcheck relies on the earlier "isTileAvailable", which sets the position to equal the current position in case of a wall
 
-                //Left tile is a wall
-                if (left.getLocation().equals(new Point(x, y))) {
-                    //Up and down are the same value
-                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
-                        //The vector is pointing straight at the wall
-                        if (vector.getX() == -1) {
-                            vector = new Point2D.Double(0, -1);
-                        }
+                //Checking whether a diagonal vector is pointing at a wall
+                //If so, make it choose between up/down and left/right
+
+                //The vector is pointing diagonally in a direction
+                if (vector.getX() != 0 && vector.getY() != 0 && Math.abs(vector.getX()) == Math.abs(vector.getY())) {
+
+                    Point2D normalizedVector = VecMath.getNormalized(vector);
+
+                    Point direction = new Point();
+                    if (vector.getX() > 0)
+                        direction.x = (int) (Math.ceil(normalizedVector.getX()));
+                    else
+                        direction.x = (int) Math.floor(normalizedVector.getX());
+
+                    if (vector.getY() > 0)
+                        direction.y = (int) (Math.ceil(normalizedVector.getY()));
+                    else
+                        direction.y = (int) (Math.floor(normalizedVector.getY()));
+
+
+                    //The vector is pointing at a wall
+                    if (Simulator.getInstance().getTileMap().isAWall(new Point(x + direction.x, y + direction.y))) {
+
+                        vector = new Point2D.Double(0, vector.getY());
                     }
+
+                    //Walls on both sides in the back of the vector
+                   else if (Simulator.getInstance().getTileMap().isAWall(new Point(x + direction.x * -1, y)) && Simulator.getInstance().getTileMap().isAWall(new Point(x, y + direction.y * -1))) {
+                        vector = new Point2D.Double(vector.getX(), 0);
+                    }
+
                 }
 
-                //Right tile is a wall
-                else if (right.getLocation().equals(new Point(x, y))) {
-                    //Up and down are the same value
-                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
-                        //The vector is pointing straight at the wall
-                        if (vector.getX() == 1) {
-                            vector = new Point2D.Double(0, -1);
-                        }
-                    }
-                }
-
-                //Up tile is a wall
-                else if (up.getLocation().equals(new Point(x, y))) {
-                    //Up and down are the same value
-                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
-                        //The vector is pointing straight at the wall
-                        if (vector.getY() == -1) {
-                            vector = new Point2D.Double(-1, 0);
-                        }
-                    }
-                }
-
-                //Down tile is a wall
-                else if (down.getLocation().equals(new Point(x, y))) {
-                    //Up and down are the same value
-                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
-                        //The vector is pointing straight at the wall
-                        if (vector.getY() == 1) {
-                            vector = new Point2D.Double(-1, 0);
-                        }
-                    }
-                }
-
-
-
-
-                /*
-
-                //Left or right tile is a wall
-                if (left.getLocation().equals(new Point(x, y)) || right.getLocation().equals(new Point(x, y))) {
-
-                    int value = (int) Math.round(Math.random()) * 2 - 1;
-
-                    // Check if both up and down have same value
-                    // If yes, randomize value to choose either up or down
-                    if (tiles[up.y][up.x].getDistance() == tiles[down.y][down.x].getDistance()) {
-                        System.out.println("Tile: " + currentTile.getDistance());
-                        vector = new Point2D.Double(0, value);
-                    }
-                }
-                //Top or bottom tile is a wall
-                else if (up.getLocation().equals(new Point(x, y)) || down.getLocation().equals(new Point(x, y))) {
-
-                    int value = (int) Math.round(Math.random()) * 2 - 1;
-
-                    // Check if both left and right have same value
-                    // If yes, randomize value to choose either left or right
-                    if (tiles[left.y][left.x].getDistance() == tiles[right.y][right.x].getDistance()) {
-                        System.out.println("Tile: " + currentTile.getDistance());
-                        vector = new Point2D.Double(value, 0);
-                    }
-                }
-                */
-
-
-                double magnitude = Math.sqrt(vector.getX() * vector.getX() + vector.getY() * vector.getY());
-
-
-                currentTile.setVector(new Point2D.Double(vector.getX() / magnitude, vector.getY() / magnitude));
+                currentTile.setVector(VecMath.getNormalized(vector));
 
             }
         }
