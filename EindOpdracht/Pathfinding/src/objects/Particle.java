@@ -7,7 +7,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Particle {
 
@@ -27,7 +26,6 @@ public class Particle {
         this.radius = radius;
         this.position = position;
         this.color = color;
-        //   this.angle = 0;
         this.vector = new Point2D.Double(0, 0);
         this.bounceCollision = false;
     }
@@ -35,8 +33,6 @@ public class Particle {
     public Particle(double radius, Point2D position) {
         this.radius = radius;
         this.position = position;
-        //   this.color = color;
-        //   this.angle = 0;
         this.vector = new Point2D.Double(0, 0);
         this.bounceCollision = false;
     }
@@ -68,14 +64,6 @@ public class Particle {
         else if (vectorDiff.getY() > 0)
             vector.setLocation(vector.getX(), vector.getY() - 0.001 * velocity * deltaTime);
 
-        /*
-        if (Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getDistance() == 0)
-        {
-            int valuex = (int)Math.round(Math.random()*2-1);
-            int valuey = (int)Math.round(Math.random()*2-1);
-            vector.setLocation(0.02, -0.02);
-    }
-    */
 
 
         Point2D newPosition = new Point2D.Double(
@@ -97,136 +85,21 @@ public class Particle {
                 if (direction.y > 0 || direction.y < 0)
                     vector.setLocation(vector.getX(), vector.getY() * -0.5);
 
-            } else {
+                newPosition = new Point2D.Double(
+                        position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
 
-                //Right
-                if (direction.x > 0) {
-                    System.out.println("Hitting right wall");
 
-                    //BottomRight
-                    if (direction.y > 0) {
+                setPosition(newPosition);
 
-                        //Colliding with the right wall
-                        if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x + direction.x, currentTile.y)))
-                            vector.setLocation(0, vector.getY());
-                            //Colliding with bottom wall
-                        else
-                            vector.setLocation(vector.getX(), 0);
-
-                    }
-
-                    //TopRight
-                    else if (direction.y < 0) {
-
-                        //Colliding with the right wall
-                        if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x + direction.x, currentTile.y)))
-                            vector.setLocation(0, vector.getY());
-                            //Colliding with top wall
-                        else
-                            vector.setLocation(vector.getX(), 0);
-                    }
-
-                    //Right
-                    else {
-                        vector.setLocation(0/*vector.getX() * -0.75*/, vector.getY());
-                    }
-
-                    //Left
-                } else if (direction.x < 0) {
-                    System.out.println("Hitting left wall");
-
-                    //BottomLeft
-                    if (direction.y > 0) {
-                        //Colliding with the left wall
-                        if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x - direction.x, currentTile.y)))
-                            vector.setLocation(0, vector.getY());
-                            //Colliding with bottom wall
-                        else
-                            vector.setLocation(vector.getX(), 0);
-                    }
-
-                    //Topleft
-                    else if (direction.y < 0) {
-
-                        //Colliding with the left wall
-                        if (Simulator.getInstance().getTileMap().isAWall(new Point(currentTile.x - direction.x, currentTile.y)))
-                            vector.setLocation(0, vector.getY());
-                            //Colliding with top wall
-                        else
-                            vector.setLocation(vector.getX(), 0);
-                    }
-
-                    //Left
-                    else {
-                        vector.setLocation(0/*vector.getX() * -0.75*/, vector.getY());
-                    }
-                }
-
-                //Bottom
-                else if (direction.y > 0) {
-                    System.out.println("Hitting bottom wall");
-                    vector.setLocation(vector.getX(), 0);//vector.getY() * -0.75);
-                }
-
-                //Top
-                else {
-                    System.out.println("Hitting top wall");
-                    vector.setLocation(vector.getX(), 0);//vector.getY() * -0.75);
-                }
-
-            }
-
-            newPosition = new Point2D.Double(
-                    position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
-
-        }
-
-        setPosition(newPosition);
-/*
-
-        Particle collidingParticle = hasCollision(Simulator.getInstance().getParticles());
-        if (collidingParticle == null)
-            setPosition(newPosition);
-        else {
-            vector.setLocation(collidingParticle.getVector().getX() * -1, collidingParticle.getVector().getY() * -1);
-            newPosition = new Point2D.Double(
-                    position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
-
-            setPosition(newPosition);
-
-        }
-        */
-
-        //    System.out.println(vector);
-/*
-
-        boolean collision = false;
-        for (Particle p : Simulator.getInstance().getParticles()) {
-            if (p.equals(this))
-                continue;
-
-            if (p.getPosition().distance(position) < p.getRadius() / 2 + radius / 2) {
-                collision = true;
-                break;
+            }else{
+                vector.setLocation(0,0);
             }
 
         }
-
-        if (collision)
-            position = lastPos;
-*/
-/*
-      //  System.out.println(angle);
-        if (Simulator.getInstance().getTileMap().isAWall(targetTile)) {
-            System.out.println("Hit");
-            //position = lastPos;
-            angle *= -1;
-
-        }else{
+        else{
             setPosition(newPosition);
         }
-      //  System.out.println(angle);
-*/
+
     }
 
 
