@@ -14,6 +14,7 @@ public class OptionsPanel extends JPanel {
     private JCheckBox showVectorField;
 
     private JCheckBox setBounceCollision;
+    private JCheckBox setAdditiveBlending;
 
     private boolean paused;
 
@@ -27,8 +28,9 @@ public class OptionsPanel extends JPanel {
         gridPanel.add(showDistanceMap = new JCheckBox("Show Distance Map", true));
         gridPanel.add(showVectorField = new JCheckBox("Show Vector Field", true));
         gridPanel.add(new JPanel());
-        gridPanel.add(setBounceCollision = new JCheckBox("Set Bounce Collision", true));
-
+        gridPanel.add(setBounceCollision = new JCheckBox("Use Bounce Collision", true));
+        gridPanel.add(setAdditiveBlending = new JCheckBox("Use Additive Blending", true));
+        gridPanel.add(new JPanel());
 
         JButton resetButton = new JButton("Reset Field");
         resetButton.addActionListener(e -> {
@@ -39,6 +41,15 @@ public class OptionsPanel extends JPanel {
         });
         gridPanel.add(resetButton);
 
+        JButton pauseButton = new JButton("(Un)Pause Simulation");
+        pauseButton.addActionListener(e -> {
+            if (paused)
+                paused = false;
+            else
+                paused = true;
+        });
+        gridPanel.add(pauseButton);
+        gridPanel.add(new JPanel());
 
         JButton chooseColorButton = new JButton("Set Particle Color");
         chooseColorButton.addActionListener(e ->
@@ -53,7 +64,6 @@ public class OptionsPanel extends JPanel {
             paused = false;
         });
         gridPanel.add(chooseColorButton);
-
 
         JButton chooseImageButton = new JButton("Set Particle Image");
         chooseImageButton.addActionListener(e -> {
@@ -75,16 +85,6 @@ public class OptionsPanel extends JPanel {
             paused = false;
         });
         gridPanel.add(chooseImageButton);
-
-
-        JButton pauseButton = new JButton("(Un)Pause Simulation");
-        pauseButton.addActionListener(e -> {
-            if (paused)
-                paused = false;
-            else
-                paused = true;
-        });
-        gridPanel.add(pauseButton);
 
         add(gridPanel);
     }

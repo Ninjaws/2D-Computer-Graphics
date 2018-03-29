@@ -63,9 +63,6 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         startTime = System.currentTimeMillis();
 
         paused = optionsPanel.isPaused();
-        if(!paused)
-            paused = Frame.getFrames().
-
 
         if (!paused) {
 

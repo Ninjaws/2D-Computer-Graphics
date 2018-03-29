@@ -78,7 +78,8 @@ public class Particle {
         Point direction = getDirection(currentTile, targetTile);
 
 
-        if (Simulator.getInstance().getTileMap().isAWall(targetTile) || !Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
+        if (Simulator.getInstance().getTileMap().isAWall(targetTile) || !Simulator.getInstance().getTileMap().isInsideMap(targetTile)
+                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile) || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
 
 
             if (bounceCollision) {

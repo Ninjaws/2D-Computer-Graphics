@@ -2,6 +2,8 @@ package presentation.frames.simulator;
 
 import data.Simulator;
 import map.MapLoader;
+import presentation.frames.menus.AboutFrame;
+import presentation.frames.menus.ControlsFrame;
 import presentation.frames.options.OptionsPanel;
 
 import javax.swing.*;
@@ -10,7 +12,6 @@ import java.awt.*;
 
 public class SimulatorFrame extends JFrame {
 
-    private boolean paused;
 
     public SimulatorFrame() {
         super("Simulator");
@@ -95,18 +96,19 @@ public class SimulatorFrame extends JFrame {
 
         bar.add(fileMenu);
 
-
+ControlsFrame controlsFrame = new ControlsFrame();
         JMenu helpMenu = new JMenu("Help");
         JMenuItem controlsItem = new JMenuItem("Controls");
         controlsItem.addActionListener(e ->
         {
-
+           controlsFrame.setVisible(true);
         });
         helpMenu.add(controlsItem);
 
+        AboutFrame aboutFrame = new AboutFrame();
         JMenuItem aboutItem = new JMenuItem("About");
         aboutItem.addActionListener(e -> {
-
+            aboutFrame.setVisible(true);
         });
         helpMenu.add(aboutItem);
 
@@ -117,7 +119,4 @@ public class SimulatorFrame extends JFrame {
 
     }
 
-    public boolean isPaused() {
-        return paused;
-    }
 }
