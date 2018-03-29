@@ -1,6 +1,7 @@
-package presentation.frames;
+package presentation.frames.options;
 
 import data.Simulator;
+import presentation.frames.simulator.StatisticsPanel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,7 +14,6 @@ public class OptionsPanel extends JPanel {
     private JCheckBox showVectorField;
 
     private JCheckBox setBounceCollision;
-
 
     private boolean paused;
 

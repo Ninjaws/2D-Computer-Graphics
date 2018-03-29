@@ -1,4 +1,4 @@
-package presentation.frames;
+package presentation.frames.simulator;
 
 import data.Simulator;
 

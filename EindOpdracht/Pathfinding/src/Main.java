@@ -1,7 +1,7 @@
 import data.Simulator;
 import map.TileMap;
 import data.Destination;
-import presentation.frames.SimulatorFrame;
+import presentation.frames.simulator.SimulatorFrame;
 
 import javax.swing.*;
 
