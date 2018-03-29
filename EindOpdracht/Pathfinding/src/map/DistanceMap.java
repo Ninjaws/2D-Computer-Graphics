@@ -185,22 +185,18 @@ public class DistanceMap {
 
                 Point right = new Point(x + 1, y);
                 if (!isTileAvailable(right))
-                    //   right = new Point(x, y);
                     tiles[right.y][right.x].setDistance(tiles[y][x].getDistance());
 
                 Point left = new Point(x - 1, y);
                 if (!isTileAvailable(left))
-                    //   left = new Point(x, y);
                     tiles[left.y][left.x].setDistance(tiles[y][x].getDistance());
 
                 Point up = new Point(x, y - 1);
                 if (!isTileAvailable(up))
-                    //   up = new Point(x, y);
                     tiles[up.y][up.x].setDistance(tiles[y][x].getDistance());
 
                 Point down = new Point(x, y + 1);
                 if (!isTileAvailable(down))
-                    // down = new Point(x, y);
                     tiles[down.y][down.x].setDistance(tiles[y][x].getDistance());
 
 

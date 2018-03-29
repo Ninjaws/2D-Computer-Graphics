@@ -1,8 +1,9 @@
-package presentation.frames;
+package presentation.frames.simulator;
 
 import data.Simulator;
 import objects.Particle;
 import presentation.components.DebugDraw;
+import presentation.frames.options.OptionsPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +63,6 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         startTime = System.currentTimeMillis();
 
         paused = optionsPanel.isPaused();
-
 
         if (!paused) {
 

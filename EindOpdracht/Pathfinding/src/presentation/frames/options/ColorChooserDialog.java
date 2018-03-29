@@ -1,4 +1,4 @@
-package presentation.frames;
+package presentation.frames.options;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;

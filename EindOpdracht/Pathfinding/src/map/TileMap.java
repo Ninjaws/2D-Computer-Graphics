@@ -5,8 +5,9 @@ import data.Simulator;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
-public class TileMap {
+public class TileMap implements Serializable {
 
 
     private int tiles[][];

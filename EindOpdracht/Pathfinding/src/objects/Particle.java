@@ -41,12 +41,15 @@ public class Particle {
 
         Point currentTile = getOccupyingTile(position);
 
+        if (!Simulator.getInstance().getTileMap().isInsideMap(currentTile))
+            return;
+
         if (!Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector().equals(new Point2D.Double(0.0, 0.0))) {
-          setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
+            setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
             double angle = Math.random() * Math.PI * 2;
             setVector(new Point2D.Double(Math.cos(angle) / 2, Math.sin(angle) / 2));
         } else {
-                setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
+            setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
         }
 
         if (Simulator.getInstance().getTileMap().isAWall(currentTile) || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
@@ -65,7 +68,6 @@ public class Particle {
             vector.setLocation(vector.getX(), vector.getY() - 0.001 * velocity * deltaTime);
 
 
-
         Point2D newPosition = new Point2D.Double(
                 position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
 
@@ -76,7 +78,8 @@ public class Particle {
         Point direction = getDirection(currentTile, targetTile);
 
 
-        if (Simulator.getInstance().getTileMap().isAWall(targetTile) || !Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
+        if (Simulator.getInstance().getTileMap().isAWall(targetTile) || !Simulator.getInstance().getTileMap().isInsideMap(targetTile)
+                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile) || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
 
 
             if (bounceCollision) {
@@ -91,12 +94,11 @@ public class Particle {
 
                 setPosition(newPosition);
 
-            }else{
-                vector.setLocation(0,0);
+            } else {
+                vector.setLocation(0, 0);
             }
 
-        }
-        else{
+        } else {
             setPosition(newPosition);
         }
 
