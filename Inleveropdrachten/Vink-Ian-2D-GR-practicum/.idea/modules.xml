@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Week 5/AngryBirds/AngryBirds.iml" filepath="$PROJECT_DIR$/Week 5/AngryBirds/AngryBirds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 4/VerletEngine/VerletEngine.iml" filepath="$PROJECT_DIR$/Week 4/VerletEngine/VerletEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Vink-Ian-2D-GR-practicum.iml" filepath="$PROJECT_DIR$/Vink-Ian-2D-GR-practicum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 1/wk-1-opg-1-r-huis/wk-1-opg-1-r-huis.iml" filepath="$PROJECT_DIR$/Week 1/wk-1-opg-1-r-huis/wk-1-opg-1-r-huis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 1/wk-1-opg-2-r-X tot macht 3 getekend/wk-1-opg-2-r-X tot macht 3 getekend.iml" filepath="$PROJECT_DIR$/Week 1/wk-1-opg-2-r-X tot macht 3 getekend/wk-1-opg-2-r-X tot macht 3 getekend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 1/wk-1-opg-3-r-spiraal/wk-1-opg-3-r-spiraal.iml" filepath="$PROJECT_DIR$/Week 1/wk-1-opg-3-r-spiraal/wk-1-opg-3-r-spiraal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 1/wk-1-opg-4-r-regenboog/wk-1-opg-4-r-regenboog.iml" filepath="$PROJECT_DIR$/Week 1/wk-1-opg-4-r-regenboog/wk-1-opg-4-r-regenboog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 1/wk-1-opg-5-r-spirograaf/wk-1-opg-5-r-spirograaf.iml" filepath="$PROJECT_DIR$/Week 1/wk-1-opg-5-r-spirograaf/wk-1-opg-5-r-spirograaf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-1-r-maan/wk-2-opg-1-r-maan.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-1-r-maan/wk-2-opg-1-r-maan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-2-r-yin-yang/wk-2-opg-2-r-yin-yang.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-2-r-yin-yang/wk-2-opg-2-r-yin-yang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-3-r-13 vierkanten in basiskleuren/wk-2-opg-3-r-13 vierkanten in basiskleuren.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-3-r-13 vierkanten in basiskleuren/wk-2-opg-3-r-13 vierkanten in basiskleuren.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-4-r-rechthoek met RGP op muis/wk-2-opg-4-r-rechthoek met RGP op muis.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-4-r-rechthoek met RGP op muis/wk-2-opg-4-r-rechthoek met RGP op muis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-5-r-gespiegelde rechthoek/wk-2-opg-5-r-gespiegelde rechthoek.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-5-r-gespiegelde rechthoek/wk-2-opg-5-r-gespiegelde rechthoek.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 2/wk-2-opg-7-U-blokken slepen met camera/wk-2-opg-7-U-blokken slepen met camera.iml" filepath="$PROJECT_DIR$/Week 2/wk-2-opg-7-U-blokken slepen met camera/wk-2-opg-7-U-blokken slepen met camera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 3/wk-3-opg-1-r-regenboog (tekst)/wk-3-opg-1-r-regenboog (tekst).iml" filepath="$PROJECT_DIR$/Week 3/wk-3-opg-1-r-regenboog (tekst)/wk-3-opg-1-r-regenboog (tekst).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 3/wk-3-opg-2-r-spritesheet mannetje/wk-3-opg-2-r-spritesheet mannetje.iml" filepath="$PROJECT_DIR$/Week 3/wk-3-opg-2-r-spritesheet mannetje/wk-3-opg-2-r-spritesheet mannetje.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 3/wk-3-opg-3-r-afbeeldingen faden/wk-3-opg-3-r-afbeeldingen faden.iml" filepath="$PROJECT_DIR$/Week 3/wk-3-opg-3-r-afbeeldingen faden/wk-3-opg-3-r-afbeeldingen faden.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 3/wk-3-opg-4-r-spotlighteffect/wk-3-opg-4-r-spotlighteffect.iml" filepath="$PROJECT_DIR$/Week 3/wk-3-opg-4-r-spotlighteffect/wk-3-opg-4-r-spotlighteffect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 3/wk-3-opg-5-U-screensaver met lijnen/wk-3-opg-5-U-screensaver met lijnen.iml" filepath="$PROJECT_DIR$/Week 3/wk-3-opg-5-U-screensaver met lijnen/wk-3-opg-5-U-screensaver met lijnen.iml" />
+    </modules>
+  </component>
+</project>
