@@ -20,12 +20,18 @@ public class DebugDraw {
 
 
     public void draw(Graphics2D g2d, boolean drawHeatMap, boolean drawDistanceMap, boolean drawVectorField) {
+
+
         if (drawHeatMap)
             simulator.getDestination().getDistanceMap().drawHeatMap(g2d);
+
+
         if (drawDistanceMap)
             simulator.getDestination().getDistanceMap().drawDistanceMap(g2d);
+
         if (drawVectorField)
             simulator.getDestination().getDistanceMap().drawVectorField(g2d);
+
     }
 
 

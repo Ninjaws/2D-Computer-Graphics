@@ -37,23 +37,41 @@ public class Particle {
         this.bounceCollision = false;
     }
 
+    /**
+     * Moves the particle to a position depending on the vector of the tile it is standing on
+     *
+     * @param deltaTime The amount of time that has passed, to make sure the particles always move at the same speed
+     */
     public void move(long deltaTime) {
 
         Point currentTile = getOccupyingTile(position);
 
+        /*
         if (!Simulator.getInstance().getTileMap().isInsideMap(currentTile))
             return;
 
+        if (Simulator.getInstance().getTileMap().isAWall(currentTile) || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
+            return;
+*/
+
+        if (Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
+            return;
+
+        setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
+
+
         if (!Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile) && Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector().equals(new Point2D.Double(0.0, 0.0))) {
             setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
-            double angle = Math.random() * Math.PI * 2;
-            setVector(new Point2D.Double(Math.cos(angle) / 2, Math.sin(angle) / 2));
+            double angle = 0;
+            while ((angle >= 60 && angle <= 120) || (angle >= 150 && angle <= 210) || (angle >= 240 && angle <= 300) || (angle >= 330) || (angle <= 30)) {
+          //      System.out.println(angle);
+                angle = Math.random() * 360;// Math.PI * 2;
+            }
+            setVector(new Point2D.Double(Math.cos(Math.toRadians(angle)) / 1.5, Math.sin(Math.toRadians(angle)) / 1.5));
         } else {
             setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
         }
 
-        if (Simulator.getInstance().getTileMap().isAWall(currentTile) || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(currentTile))
-            return;
 
         Point2D vectorDiff = new Point2D.Double(vector.getX() - targetVector.getX(), vector.getY() - targetVector.getY());
 
@@ -78,9 +96,8 @@ public class Particle {
         Point direction = getDirection(currentTile, targetTile);
 
 
-        if (Simulator.getInstance().getTileMap().isAWall(targetTile) || !Simulator.getInstance().getTileMap().isInsideMap(targetTile)
-                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile) || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
-
+        if (!Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getTileMap().isAWall(targetTile)
+                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)){// || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
 
             if (bounceCollision) {
                 if (direction.x > 0 || direction.x < 0)
@@ -92,7 +109,16 @@ public class Particle {
                         position.getX() + (velocity * deltaTime) * vector.getX(), position.getY() + (velocity * deltaTime) * vector.getY());
 
 
-                setPosition(newPosition);
+                targetTile = getOccupyingTile(newPosition);
+
+                //Secondary check to make sure the bounce doesn't make it go out of bounds
+                if (!Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getTileMap().isAWall(targetTile)
+                        || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)){ //|| Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
+                    vector.setLocation(0, 0);
+                } else {
+                    setPosition(newPosition);
+                }
+
 
             } else {
                 vector.setLocation(0, 0);
@@ -105,9 +131,9 @@ public class Particle {
     }
 
 
-    public Particle hasCollision(ArrayList<Particle> particles) {
+    public boolean hasCollision(ArrayList<Particle> particles) {
         boolean hasCollision = false;
-        Particle collidingParticle = null;
+     //   Particle collidingParticle = null;
         for (Particle p : particles) {
             if (p.equals(this))
                 continue;
@@ -115,11 +141,11 @@ public class Particle {
             double distance = position.distance(p.position);
             if (distance < (radius + p.radius)) {
                 hasCollision = true;
-                collidingParticle = p;
+         //       collidingParticle = p;
             }
         }
 
-        return collidingParticle;
+        return hasCollision;
     }
 
 

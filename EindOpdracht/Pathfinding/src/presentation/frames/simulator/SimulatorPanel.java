@@ -17,12 +17,12 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
     private boolean paused;
 
-    Simulator simulator;
-    OptionsPanel optionsPanel;
-    StatisticsPanel statisticsPanel;
+    private Simulator simulator;
+    private OptionsPanel optionsPanel;
+    private StatisticsPanel statisticsPanel;
+    private SimulatorFrame frame;
 
-
-    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel, StatisticsPanel statisticsPanel) {
+    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel, StatisticsPanel statisticsPanel, SimulatorFrame frame) {
 
         startTime = 0;
         endTime = 0;
@@ -33,6 +33,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
         simulator = Simulator.getInstance();
         this.optionsPanel = optionsPanel;
         this.statisticsPanel = statisticsPanel;
+        this.frame = frame;
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -64,15 +65,20 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         paused = optionsPanel.isPaused();
 
-        if (!paused) {
+        if (paused)
+            return;
+        if (frame.isPaused())
+            return;
 
-            for (Particle p : simulator.getParticles()) {
-                p.setBounceCollision(optionsPanel.setBounceCollision());
-                p.move(deltaTime);
-            }
-
-            repaint();
+        for (Particle p : simulator.getParticles()) {
+            p.setBounceCollision(optionsPanel.setBounceCollision());
+            p.move(deltaTime);
         }
+
+
+        repaint();
+
+
     }
 
     @Override
