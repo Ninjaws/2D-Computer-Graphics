@@ -12,8 +12,10 @@ public class AboutFrame extends JFrame {
 
         buildPanel();
 
+        setAlwaysOnTop(true);
         setSize(250, 100);
         setResizable(false);
+
     }
 
     public void buildPanel() {

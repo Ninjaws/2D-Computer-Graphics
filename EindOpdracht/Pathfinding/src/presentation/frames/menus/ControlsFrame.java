@@ -12,6 +12,7 @@ public class ControlsFrame extends JFrame {
 
         buildPanel();
 
+        setAlwaysOnTop(true);
         setSize(600, 200);
         setResizable(false);
     }

@@ -12,6 +12,7 @@ import java.awt.*;
 
 public class SimulatorFrame extends JFrame {
 
+    private boolean paused;
 
     public SimulatorFrame() {
         super("Simulator");
@@ -40,7 +41,7 @@ public class SimulatorFrame extends JFrame {
 
         content.add(statisticsPanel, BorderLayout.NORTH);
         content.add(optionsPanel, BorderLayout.WEST);
-        content.add(new SimulatorPanel(width, height, optionsPanel, statisticsPanel), BorderLayout.CENTER);
+        content.add(new SimulatorPanel(width, height, optionsPanel, statisticsPanel,this), BorderLayout.CENTER);
 
 
         super.setContentPane(content);
@@ -53,11 +54,11 @@ public class SimulatorFrame extends JFrame {
         JMenu fileMenu = new JMenu("File");
         JMenuItem saveItem = new JMenuItem("Save Map");
         saveItem.addActionListener(e -> {
-
+paused = true;
 
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "MAPOBJ Files",  "mapobj");
+                    "MAPOBJ Files", "mapobj");
             fileChooser.setFileFilter(filter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -66,17 +67,18 @@ public class SimulatorFrame extends JFrame {
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-                MapLoader.writeMapToObjFile(Simulator.getInstance().getTileMap(),fileChooser.getSelectedFile());
+                MapLoader.writeMapToObjFile(Simulator.getInstance().getTileMap(), fileChooser.getSelectedFile());
             }
+            paused = false;
         });
         fileMenu.add(saveItem);
 
         JMenuItem loadItem = new JMenuItem("Load Map");
         loadItem.addActionListener(e -> {
-
+paused = true;
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "MAPOBJ Files",  "mapobj");
+                    "MAPOBJ Files", "mapobj");
             fileChooser.setFileFilter(filter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -90,18 +92,18 @@ public class SimulatorFrame extends JFrame {
                 Simulator.getInstance().getDestination().getDistanceMap().updateDistance();
             }
 
-
+paused = false;
         });
         fileMenu.add(loadItem);
 
         bar.add(fileMenu);
 
-ControlsFrame controlsFrame = new ControlsFrame();
-        JMenu helpMenu = new JMenu("Help");
+        ControlsFrame controlsFrame = new ControlsFrame();
+        JMenu helpMenu = new JMenu("Info");
         JMenuItem controlsItem = new JMenuItem("Controls");
         controlsItem.addActionListener(e ->
         {
-           controlsFrame.setVisible(true);
+            controlsFrame.setVisible(true);
         });
         helpMenu.add(controlsItem);
 
@@ -119,4 +121,7 @@ ControlsFrame controlsFrame = new ControlsFrame();
 
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
 }
