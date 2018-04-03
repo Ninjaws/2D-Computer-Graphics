@@ -10,6 +10,10 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class SimulatorFrame extends JFrame {
 
     private boolean paused;
@@ -41,7 +45,7 @@ public class SimulatorFrame extends JFrame {
 
         content.add(statisticsPanel, BorderLayout.NORTH);
         content.add(optionsPanel, BorderLayout.WEST);
-        content.add(new SimulatorPanel(width, height, optionsPanel, statisticsPanel,this), BorderLayout.CENTER);
+        content.add(new SimulatorPanel(optionsPanel, statisticsPanel, this), BorderLayout.CENTER);
 
 
         super.setContentPane(content);
@@ -54,7 +58,7 @@ public class SimulatorFrame extends JFrame {
         JMenu fileMenu = new JMenu("File");
         JMenuItem saveItem = new JMenuItem("Save Map");
         saveItem.addActionListener(e -> {
-paused = true;
+            paused = true;
 
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -67,7 +71,7 @@ paused = true;
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-                MapLoader.writeMapToObjFile(Simulator.getInstance().getTileMap(), fileChooser.getSelectedFile());
+                MapLoader.writeMapToObjFile(Simulator.getInstance().getTileMap(), fileChooser.getSelectedFile()+".mapobj");
             }
             paused = false;
         });
@@ -75,7 +79,7 @@ paused = true;
 
         JMenuItem loadItem = new JMenuItem("Load Map");
         loadItem.addActionListener(e -> {
-paused = true;
+            paused = true;
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
                     "MAPOBJ Files", "mapobj");
@@ -92,7 +96,7 @@ paused = true;
                 Simulator.getInstance().getDestination().getDistanceMap().updateDistance();
             }
 
-paused = false;
+            paused = false;
         });
         fileMenu.add(loadItem);
 

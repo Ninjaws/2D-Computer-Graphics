@@ -12,6 +12,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.LinkedList;
 
+/**
+ * @author Ian Vink
+ */
+
 public class DistanceMap {
 
     private Tile tiles[][];

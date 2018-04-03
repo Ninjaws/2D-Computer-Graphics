@@ -2,6 +2,10 @@ package map;
 
 import java.io.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class MapLoader {
 
     public static void writeMapToObjFile(TileMap map, String filePath){

@@ -3,6 +3,10 @@ package presentation.frames.menus;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class AboutFrame extends JFrame {
 
 

@@ -8,6 +8,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+
+/**
+ * @author Ian Vink
+ */
+
 public class Particle {
 
     private double radius;
@@ -19,22 +24,18 @@ public class Particle {
     private double velocity = 0.5;
     private Color color;
 
-    private boolean bounceCollision;
-
 
     public Particle(double radius, Point2D position, Color color) {
         this.radius = radius;
         this.position = position;
         this.color = color;
         this.vector = new Point2D.Double(0, 0);
-        this.bounceCollision = false;
     }
 
     public Particle(double radius, Point2D position) {
         this.radius = radius;
         this.position = position;
         this.vector = new Point2D.Double(0, 0);
-        this.bounceCollision = false;
     }
 
     /**
@@ -64,8 +65,8 @@ public class Particle {
             setTargetVector(Simulator.getInstance().getDestination().getDistanceMap().getTiles()[currentTile.y][currentTile.x].getVector());
             double angle = 0;
             while ((angle >= 60 && angle <= 120) || (angle >= 150 && angle <= 210) || (angle >= 240 && angle <= 300) || (angle >= 330) || (angle <= 30)) {
-          //      System.out.println(angle);
-                angle = Math.random() * 360;// Math.PI * 2;
+
+                angle = Math.random() * 360;
             }
             setVector(new Point2D.Double(Math.cos(Math.toRadians(angle)) / 1.5, Math.sin(Math.toRadians(angle)) / 1.5));
         } else {
@@ -97,9 +98,9 @@ public class Particle {
 
 
         if (!Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getTileMap().isAWall(targetTile)
-                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)){// || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
+                || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)) {// || Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
 
-            if (bounceCollision) {
+            if (Simulator.getInstance().isUsingBounceCollision()) {
                 if (direction.x > 0 || direction.x < 0)
                     vector.setLocation(vector.getX() * -0.5, vector.getY());
                 if (direction.y > 0 || direction.y < 0)
@@ -113,7 +114,7 @@ public class Particle {
 
                 //Secondary check to make sure the bounce doesn't make it go out of bounds
                 if (!Simulator.getInstance().getTileMap().isInsideMap(targetTile) || Simulator.getInstance().getTileMap().isAWall(targetTile)
-                        || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)){ //|| Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
+                        || Simulator.getInstance().getDestination().getDistanceMap().isNotInitialized(targetTile)) { //|| Simulator.getInstance().getDestination().getDistanceMap().getTiles()[targetTile.y][targetTile.x].getVector() == new Point2D.Double(0, 0)) {
                     vector.setLocation(0, 0);
                 } else {
                     setPosition(newPosition);
@@ -133,7 +134,7 @@ public class Particle {
 
     public boolean hasCollision(ArrayList<Particle> particles) {
         boolean hasCollision = false;
-     //   Particle collidingParticle = null;
+        //   Particle collidingParticle = null;
         for (Particle p : particles) {
             if (p.equals(this))
                 continue;
@@ -141,7 +142,7 @@ public class Particle {
             double distance = position.distance(p.position);
             if (distance < (radius + p.radius)) {
                 hasCollision = true;
-         //       collidingParticle = p;
+                //       collidingParticle = p;
             }
         }
 
@@ -150,8 +151,6 @@ public class Particle {
 
 
     public void draw(Graphics2D g2d) {
-
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
         if (Simulator.getInstance().getParticleTexture() != null) {
 
@@ -183,25 +182,12 @@ public class Particle {
     }
 
 
-    public Point2D getPosition() {
-        return position;
-    }
-
     public void setPosition(Point2D position) {
         this.position = position;
     }
 
-    public Point2D getVector() {
-        return vector;
-    }
-
     public void setVector(Point2D vector) {
         this.vector = vector;
-        //  setAngle(Math.atan2(this.vector.getY(),this.vector.getX()));
-    }
-
-    public Point2D getTargetVector() {
-        return targetVector;
     }
 
     public void setTargetVector(Point2D targetVector) {
@@ -209,11 +195,4 @@ public class Particle {
     }
 
 
-    public boolean isBounceCollision() {
-        return bounceCollision;
-    }
-
-    public void setBounceCollision(boolean bounceCollision) {
-        this.bounceCollision = bounceCollision;
-    }
 }
