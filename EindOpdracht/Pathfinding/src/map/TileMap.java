@@ -7,6 +7,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
+/**
+ * @author Ian Vink
+ */
+
 public class TileMap implements Serializable {
 
 
@@ -21,9 +25,9 @@ public class TileMap implements Serializable {
     }
 
     /**
-     *
-     * @param rows
-     * @param columns
+     * Builds a permanent surrounding wall
+     * @param rows The amount of rows in the map
+     * @param columns The amount of columns in the map
      */
     public void setMap(int rows, int columns) {
         tiles = new int[rows][columns];

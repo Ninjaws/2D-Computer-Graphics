@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class ControlsFrame extends JFrame {
 
     public ControlsFrame() {
@@ -36,7 +40,7 @@ public class ControlsFrame extends JFrame {
         table.getColumnModel().getColumn(0).setPreferredWidth(150);
         table.getColumnModel().getColumn(1).setPreferredWidth(430);
         table.setRowHeight(20);
-
+        table.setEnabled(false);
         JScrollPane pane = new JScrollPane(table);
 
         content.add(pane);

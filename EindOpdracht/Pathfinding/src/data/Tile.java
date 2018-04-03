@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+/**
+ * @author Ian Vink
+ */
+
 public class Tile {
     private int distance;
     private Point2D vector;

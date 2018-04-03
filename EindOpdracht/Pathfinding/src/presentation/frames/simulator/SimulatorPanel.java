@@ -1,5 +1,7 @@
 package presentation.frames.simulator;
 
+import calculations.AdditiveComposite;
+import calculations.BasicComposite;
 import data.Simulator;
 import objects.Particle;
 import presentation.components.DebugDraw;
@@ -8,6 +10,10 @@ import presentation.frames.options.OptionsPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+/**
+ * @author Ian Vink
+ */
 
 public class SimulatorPanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -22,7 +28,7 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
     private StatisticsPanel statisticsPanel;
     private SimulatorFrame frame;
 
-    public SimulatorPanel(int width, int height, OptionsPanel optionsPanel, StatisticsPanel statisticsPanel, SimulatorFrame frame) {
+    public SimulatorPanel(OptionsPanel optionsPanel, StatisticsPanel statisticsPanel, SimulatorFrame frame) {
 
         startTime = 0;
         endTime = 0;
@@ -49,8 +55,22 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
 
         DebugDraw.getInstance().draw(g2d, optionsPanel.showHeatMap(), optionsPanel.showDistanceMap(), optionsPanel.showVectorField());
 
-        for (Particle p : simulator.getParticles())
+
+        //Composite oldComp = g2d.getComposite();
+
+        //TODO: Figure out why AlphaComposite (and anything else that is not a self-made Composite) lags
+        //TODO: when you switch away from a self-made Composite
+        if (Simulator.getInstance().isUsingAdditiveBlending()) {
+            g2d.setComposite(new AdditiveComposite());
+        } else {
+            g2d.setComposite(new BasicComposite());
+          //  g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+        }
+        for (Particle p : simulator.getParticles()) {
+
             p.draw(g2d);
+        }
+        //g2d.setComposite(oldComp);
 
 
     }
@@ -71,7 +91,6 @@ public class SimulatorPanel extends JPanel implements ActionListener, MouseListe
             return;
 
         for (Particle p : simulator.getParticles()) {
-            p.setBounceCollision(optionsPanel.setBounceCollision());
             p.move(deltaTime);
         }
 

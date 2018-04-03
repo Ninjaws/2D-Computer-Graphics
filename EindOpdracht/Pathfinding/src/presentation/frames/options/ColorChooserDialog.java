@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class ColorChooserDialog extends JDialog {
 
     private Color color;

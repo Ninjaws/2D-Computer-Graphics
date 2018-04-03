@@ -4,6 +4,10 @@ import data.Simulator;
 
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class DebugDraw {
 
     private static DebugDraw instance;
@@ -24,7 +28,6 @@ public class DebugDraw {
 
         if (drawHeatMap)
             simulator.getDestination().getDistanceMap().drawHeatMap(g2d);
-
 
         if (drawDistanceMap)
             simulator.getDestination().getDistanceMap().drawDistanceMap(g2d);

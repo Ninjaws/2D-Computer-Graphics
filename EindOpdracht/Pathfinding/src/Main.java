@@ -5,6 +5,10 @@ import presentation.frames.simulator.SimulatorFrame;
 
 import javax.swing.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class Main {
     public static void main(String[] args) {
 

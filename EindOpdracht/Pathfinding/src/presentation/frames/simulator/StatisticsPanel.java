@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @author Ian Vink
+ */
+
 public class StatisticsPanel extends JPanel {
 
     private Label particleLabel;

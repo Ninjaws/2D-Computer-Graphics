@@ -2,6 +2,10 @@ package data;
 
 import map.DistanceMap;
 
+/**
+ * @author Ian Vink
+ */
+
 public class Destination {
     private DistanceMap distanceMap;
 

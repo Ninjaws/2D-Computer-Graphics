@@ -7,6 +7,10 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 
+/**
+ * @author Ian Vink
+ */
+
 public class OptionsPanel extends JPanel {
 
     private JCheckBox showHeatMap;
@@ -28,8 +32,20 @@ public class OptionsPanel extends JPanel {
         gridPanel.add(showDistanceMap = new JCheckBox("Show Distance Map", true));
         gridPanel.add(showVectorField = new JCheckBox("Show Vector Field", true));
         gridPanel.add(new JPanel());
-        gridPanel.add(setBounceCollision = new JCheckBox("Use Bounce Collision", true));
-        gridPanel.add(setAdditiveBlending = new JCheckBox("Use Additive Blending", true));
+
+        setBounceCollision = new JCheckBox("Use Bounce Collision",Simulator.getInstance().isUsingBounceCollision());
+        setBounceCollision.addActionListener(e->{
+            Simulator.getInstance().setUsingBounceCollision(setBounceCollision.isSelected());
+        });
+        gridPanel.add(setBounceCollision);
+
+
+        setAdditiveBlending = new JCheckBox("Use Additive Blending", Simulator.getInstance().isUsingAdditiveBlending());
+        setAdditiveBlending.addActionListener(e->{
+            Simulator.getInstance().setUsingAdditiveBlending(setAdditiveBlending.isSelected());
+        });
+        gridPanel.add(setAdditiveBlending);
+
         gridPanel.add(new JPanel());
 
         JButton resetButton = new JButton("Reset Field");
@@ -102,10 +118,13 @@ public class OptionsPanel extends JPanel {
         return showVectorField.isSelected();
     }
 
-    public boolean setBounceCollision() {
+    public boolean getBounceCollision() {
         return setBounceCollision.isSelected();
     }
 
+    public boolean getAdditiveBlending() {
+        return setAdditiveBlending.isSelected();
+    }
 
     public boolean isPaused() {
         return paused;
