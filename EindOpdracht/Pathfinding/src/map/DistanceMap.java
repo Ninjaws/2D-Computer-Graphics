@@ -289,6 +289,76 @@ public class DistanceMap {
     }
 
 
+
+    public void draw(Graphics2D g2d, boolean drawHeatMap, boolean drawDistanceMap, boolean drawVectorField) {
+        for (int row = 0; row < tiles.length; row++) {
+            for (int col = 0; col < tiles[row].length; col++) {
+
+                if (drawHeatMap)
+                    drawHeatMap(g2d, row, col);
+                drawTargetTiles(g2d, row, col);
+                if (drawDistanceMap)
+                    drawDistanceMap(g2d, row, col);
+                if (drawVectorField)
+                    drawVectorField(g2d, row, col);
+            }
+        }
+
+    }
+
+    public void drawHeatMap(Graphics2D g2d, int row, int col) {
+        if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1) {
+
+            g2d.setColor(tiles[row][col].getColor());
+            g2d.fill(new Rectangle2D.Double(col * Simulator.getInstance().getTileMap().getTileSize(), row * Simulator.getInstance().getTileMap().getTileSize(),
+                    Simulator.getInstance().getTileMap().getTileSize(), Simulator.getInstance().getTileMap().getTileSize()));
+
+            g2d.setColor(Color.WHITE);
+            g2d.draw(new Rectangle2D.Double(col * Simulator.getInstance().getTileMap().getTileSize(), row * Simulator.getInstance().getTileMap().getTileSize(),
+                    Simulator.getInstance().getTileMap().getTileSize(), Simulator.getInstance().getTileMap().getTileSize()));
+        }
+    }
+
+    public void drawTargetTiles(Graphics2D g2d, int row, int col) {
+        g2d.setColor(new Color(255, 0, 0, 20));
+        if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1) {
+            if (tiles[row][col].getDistance() == 0) {
+
+                g2d.fill(new Rectangle2D.Double(col * Simulator.getInstance().getTileMap().getTileSize(), row * Simulator.getInstance().getTileMap().getTileSize(),
+                        Simulator.getInstance().getTileMap().getTileSize(), Simulator.getInstance().getTileMap().getTileSize()));
+            }
+        }
+    }
+
+    public void drawDistanceMap(Graphics2D g2d, int row, int col) {
+        g2d.setColor(Color.WHITE);
+        if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1) {
+
+            g2d.drawString("" + tiles[row][col].getDistance(), col * Simulator.getInstance().getTileMap().getTileSize() + Simulator.getInstance().getTileMap().getTileSize() / 6,
+                    row * Simulator.getInstance().getTileMap().getTileSize() + Simulator.getInstance().getTileMap().getTileSize() / 3);
+
+        }
+    }
+
+    public void drawVectorField(Graphics2D g2d, int row, int col) {
+        int tileSize = Simulator.getInstance().getTileMap().getTileSize();
+
+        if (Simulator.getInstance().getTileMap().getTiles()[row][col] == 0 && tiles[row][col].getDistance() != -1) {// && tiles[row][col].getDistance() != 0) {
+            int centerX = col * tileSize + tileSize / 2;
+            int centerY = row * tileSize + tileSize / 2;
+
+            g2d.setColor(Color.WHITE);
+            g2d.draw(new Line2D.Double(centerX, centerY, centerX + (tiles[row][col].getVector().getX() * tileSize / 2), centerY + (tiles[row][col].getVector().getY() * tileSize / 2)));
+
+            g2d.setColor(Color.RED);
+            double radius = tileSize / 10;
+            g2d.fill(new Ellipse2D.Double(centerX - radius / 2, centerY - radius / 2, radius, radius));
+
+        }
+    }
+
+
+
     public void drawHeatMap(Graphics2D g2d) {
         for (int row = 0; row < tiles.length; row++) {
             for (int col = 0; col < tiles[row].length; col++) {
