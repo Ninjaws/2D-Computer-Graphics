@@ -65,7 +65,7 @@ public class Simulator {
     }
 
     /**
-     * Spawns a specifiek number of particles on the tile the mouse is occupying
+     * Spawns a specific number of particles on the tile the mouse is occupying
      *
      * @param position The position of the mouse
      */
@@ -92,7 +92,6 @@ public class Simulator {
     public void deleteParticles() {
         this.particles.clear();
     }
-
 
     public TileMap getTileMap() {
         return tileMap;
